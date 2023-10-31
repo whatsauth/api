@@ -18,7 +18,7 @@ go build
 ## Create Service
 
 ```sh
-sudo vim /lib/systemd/system/api.service
+vim /lib/systemd/system/api.service
 ```
 
 ```conf
@@ -36,12 +36,8 @@ WantedBy=multi-user.target
 ```
 
 ```sh
-sudo vim /lib/systemd/system/api.service
-```
-
-```sh
-systemctl enable fiberserver
-systemctl start fiberserver
+systemctl enable api
+systemctl start api
 reboot
 ```
 
