@@ -72,11 +72,12 @@ func GetQRString(client *whatsmeow.Client, qr chan QRStatus) {
 			}
 		}
 	} else {
+		message := "login"
 		err := client.Connect()
 		if err != nil {
-			panic(err)
+			message = err.Error()
 		}
-		qr <- QRStatus{false, "", "connected"}
+		qr <- QRStatus{false, "", message}
 	}
 
 }
