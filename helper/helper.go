@@ -44,7 +44,7 @@ func GetClient(jid types.JID) (client *whatsmeow.Client) {
 
 }
 
-func GetQRString(client *whatsmeow.Client, qr chan string) {
+func GetQRString(client *whatsmeow.Client, qr chan QRStatus) {
 	if client.Store.ID == nil {
 		qrChan, _ := client.GetQRChannel(context.Background())
 		err := client.Connect()
@@ -58,9 +58,10 @@ func GetQRString(client *whatsmeow.Client, qr chan string) {
 				// e.g. qrterminal.GenerateHalfBlock(evt.Code, qrterminal.L, os.Stdout)
 				// or just manually `echo 2@... | qrencode -t ansiutf8` in a terminal
 				fmt.Println("QR code:", evt.Code)
-				qr <- evt.Code
+				qr <- QRStatus{true, evt.Code, evt.Event}
 			} else {
 				fmt.Println("Login event:", evt.Event)
+				qr <- QRStatus{true, evt.Code, evt.Event}
 			}
 		}
 	} else {

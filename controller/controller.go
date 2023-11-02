@@ -19,7 +19,7 @@ func Device(c *fiber.Ctx) error {
 		User:   c.Params("+"),
 		Server: "s.whatsapp.net",
 	}
-	qr := make(chan string)
+	qr := make(chan helper.QRStatus)
 
 	go helper.GetQRString(helper.GetClient(phonejid), qr)
 	a := <-qr
