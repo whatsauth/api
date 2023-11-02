@@ -12,15 +12,21 @@ import (
 	waLog "go.mau.fi/whatsmeow/util/log"
 )
 
-func EventHandler(evt interface{}) {
+func (mycli *MyClient) register() {
+	mycli.eventHandlerID = mycli.WAClient.AddEventHandler(mycli.EventHandler)
+}
+
+func (mycli *MyClient) EventHandler(evt interface{}) {
 	switch v := evt.(type) {
 	case *events.Message:
+		go HandlingMessage(&v.Info, v.Message, mycli.WAClient)
 		fmt.Println("Received a message!", v.Message.GetConversation())
 	}
+	// Handle event and access mycli.WAClient
 }
 
 func GetClient(phonenumber string) (client *whatsmeow.Client) {
-	dbLog := waLog.Stdout("Database", "DEBUG", true)
+	dbLog := waLog.Stdout("Database", "ERROR", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
 	container, err := sqlstore.New("sqlite3", "file:wa.db?_foreign_keys=on", dbLog)
 	if err != nil {
@@ -43,7 +49,9 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 	//deviceStore, err := container.GetAllDevices()
 	clientLog := waLog.Stdout("Client", "ERROR", true)
 	client = whatsmeow.NewClient(deviceStore, clientLog)
-	client.AddEventHandler(EventHandler)
+	var mycli MyClient
+	mycli.WAClient = client
+	mycli.register()
 	return
 
 }
@@ -106,7 +114,10 @@ func ConnectAllClient() {
 			fmt.Printf("%d. %s", i, deviceStore.ID.User)
 			clientLog := waLog.Stdout("Client", "ERROR", true)
 			client := whatsmeow.NewClient(deviceStore, clientLog)
-			client.AddEventHandler(EventHandler)
+			var mycli MyClient
+			mycli.WAClient = client
+			mycli.register()
+			//client.AddEventHandler(EventHandler)
 			if client.Store.ID != nil {
 				err := client.Connect()
 				if err != nil {
