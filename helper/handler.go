@@ -1,12 +1,13 @@
 package helper
 
 import (
+	"api/config"
+	"fmt"
 	"time"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/module"
 	"github.com/aiteung/module/model"
-	"github.com/google/uuid"
 	"go.mau.fi/whatsmeow"
 	waProto "go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"
@@ -22,23 +23,12 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, Client *
 		}
 		//membuat struct untuk iteung v2
 		Pesan := module.Whatsmeow2Struct(WAIface)
-		if Pesan.Phone_number == "6285156007137" || Pesan.Phone_number == "6285757707248" || Pesan.Phone_number == "6281312000300" {
-			go atdb.InsertOneDoc(config.MongoIteungConn, "log_iteung_message_gowa", ITeungMessageUUID{
-				UUID:          uuid.New().String(),
-				IteungMessage: Pesan,
-			})
-		}
 		//kirim ke backend iteung v2
-		resp, errmessage := module.SendToIteungAPI(Pesan, config.IteungURLV2)
+		resp, err := module.SendToIteungAPI(Pesan, config.WebHook)
+		atdb.InsertOneDoc(config.Mongoconn, "log_iteung_message", Pesan)
 		//log error untuk debug
-		if errmessage != "" {
-			go atdb.InsertOneDoc(config.MongoIteungConn, "log_error", ITeungErrorLog{
-				UUID:         uuid.New().String(),
-				Container:    "iteung-gowa",
-				Message:      Pesan,
-				Response:     resp,
-				ErrorMessage: errmessage,
-			})
+		if err != "" {
+			fmt.Println(err)
 		}
 		if resp.Response != "" {
 			go Client.SendChatPresence(Info.Chat, "composing", "")

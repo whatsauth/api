@@ -7,7 +7,6 @@ require (
 	github.com/aiteung/module v0.0.27
 	github.com/aiteung/musik v0.0.5
 	github.com/gofiber/fiber/v2 v2.50.0
-	github.com/google/uuid v1.3.1
 	github.com/mattn/go-sqlite3 v1.14.17
 	github.com/stretchr/testify v1.8.4
 	github.com/whatsauth/watoken v0.1.3
@@ -28,6 +27,7 @@ require (
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/uuid v1.3.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/kr/text v0.2.0 // indirect

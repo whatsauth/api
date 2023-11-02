@@ -1,5 +1,3 @@
 package config
 
-import "os"
-
-var ApiWaButton string = os.Getenv("URLAPIWABUTTON")
+var WebHook string = "https://chrome.chrot"
