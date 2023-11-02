@@ -1,7 +1,7 @@
 package helper
 
 type QRStatus struct {
-	Status  bool   `json:"status,omitempty"`
-	QRCode  string `json:"qrcode,omitempty"`
-	Message string `json:"message,omitempty"`
+	Status  bool   `json:"status"`
+	QRCode  string `json:"qrcode"`
+	Message string `json:"message"`
 }
