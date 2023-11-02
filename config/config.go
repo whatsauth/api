@@ -1,6 +1,9 @@
 package config
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"go.mau.fi/whatsmeow/types"
+)
 
 var Iteung = fiber.Config{
 	Prefork:       true,
@@ -8,4 +11,9 @@ var Iteung = fiber.Config{
 	StrictRouting: true,
 	ServerHeader:  "WhatsAuth",
 	AppName:       "API Message Router",
+}
+
+var PhoneNumber = types.JID{
+	User:   "6287752000300",
+	Server: "s.whatsapp.net",
 }
