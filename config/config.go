@@ -6,6 +6,6 @@ var Iteung = fiber.Config{
 	Prefork:       true,
 	CaseSensitive: true,
 	StrictRouting: true,
-	ServerHeader:  "Iteung",
-	AppName:       "Message Router",
+	ServerHeader:  "WhatsAuth",
+	AppName:       "API Message Router",
 }
