@@ -90,7 +90,8 @@ func ConnectAllClient() {
 	//deviceStore, err := container.GetFirstDevice()
 	deviceStores, err := container.GetAllDevices()
 	//deviceStore, err := container.GetDevice(jid)
-	for _, deviceStore := range deviceStores {
+	for i, deviceStore := range deviceStores {
+		fmt.Printf("%d. %s", i, deviceStore.ID.User)
 		clientLog := waLog.Stdout("Client", "ERROR", true)
 		client := whatsmeow.NewClient(deviceStore, clientLog)
 		client.AddEventHandler(EventHandler)
