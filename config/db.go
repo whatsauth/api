@@ -1,16 +1,14 @@
 package config
 
 import (
-	"os"
-
 	"github.com/aiteung/atdb"
 )
 
-var MongoString string = os.Getenv("MONGOSTRING")
+var MongoString string = "mongodb+srv://awangga:8uPiRHynbtRuHv6X@potp.x8hnwy3.mongodb.net/waapi"
 
 var DBUlbimongoinfo = atdb.DBInfo{
 	DBString: MongoString,
-	DBName:   "apiwa",
+	DBName:   "waapi",
 }
 
 var Mongoconn = atdb.MongoConnect(DBUlbimongoinfo)
