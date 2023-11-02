@@ -1,6 +1,4 @@
 package config
 
-import "os"
-
-var PublicKey string = os.Getenv("PUBLICKEY")
-var PrivateKey string = os.Getenv("PRIVATEKEY")
+var PublicKey string = "0d6171e848ee9efe0eca37a10813d12ecc9930d6f9b11d7ea594cac48648f022"
+var PrivateKey string = "230684b3af4e8d935604b029e5160d442b4bb91444bd26e3db5d047e74bb69770d6171e848ee9efe0eca37a10813d12ecc9930d6f9b11d7ea594cac48648f022"

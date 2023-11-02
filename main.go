@@ -14,6 +14,8 @@ import (
 )
 
 func main() {
+	//privateKey, publicKey := watoken.GenerateKey()
+	// loop database client untuk jalankan go helper.Connect(helper.GetClient(c.Params("+")), qr) disini pake for range
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))
 	url.Web(site)

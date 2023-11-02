@@ -51,7 +51,7 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 
 }
 
-func GetQRString(client *whatsmeow.Client, qr chan QRStatus) {
+func Connect(client *whatsmeow.Client, qr chan QRStatus) {
 	if client.Store.ID == nil {
 		qrChan, _ := client.GetQRChannel(context.Background())
 		err := client.Connect()

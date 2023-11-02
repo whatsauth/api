@@ -16,7 +16,7 @@ func Homepage(c *fiber.Ctx) error {
 func Device(c *fiber.Ctx) error {
 	qr := make(chan helper.QRStatus)
 
-	go helper.GetQRString(helper.GetClient(c.Params("+")), qr)
+	go helper.Connect(helper.GetClient(c.Params("+")), qr)
 	a := <-qr
 	return c.JSON(a)
 }
