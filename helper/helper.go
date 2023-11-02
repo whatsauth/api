@@ -79,6 +79,16 @@ func Connect(client *whatsmeow.Client, qr chan QRStatus) {
 
 }
 
+func Start(client *whatsmeow.Client) {
+	if client.Store.ID != nil {
+		err := client.Connect()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+}
+
 func ConnectAllClient() {
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
@@ -90,17 +100,21 @@ func ConnectAllClient() {
 	//deviceStore, err := container.GetFirstDevice()
 	deviceStores, err := container.GetAllDevices()
 	//deviceStore, err := container.GetDevice(jid)
+	nosebelumnya := ""
 	for i, deviceStore := range deviceStores {
-		fmt.Printf("%d. %s", i, deviceStore.ID.User)
-		clientLog := waLog.Stdout("Client", "ERROR", true)
-		client := whatsmeow.NewClient(deviceStore, clientLog)
-		client.AddEventHandler(EventHandler)
-		if client.Store.ID != nil {
-			err := client.Connect()
-			if err != nil {
-				fmt.Println(err)
-			}
+		if deviceStore.ID.User != nosebelumnya {
+			fmt.Printf("%d. %s", i, deviceStore.ID.User)
+			clientLog := waLog.Stdout("Client", "ERROR", true)
+			client := whatsmeow.NewClient(deviceStore, clientLog)
+			client.AddEventHandler(EventHandler)
+			if client.Store.ID != nil {
+				err := client.Connect()
+				if err != nil {
+					fmt.Println(err)
+				}
 
+			}
+			nosebelumnya = deviceStore.ID.User
 		}
 	}
 
