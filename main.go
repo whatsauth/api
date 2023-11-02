@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"api/config"
+	"api/helper"
 
 	"github.com/aiteung/musik"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -16,6 +17,7 @@ import (
 func main() {
 	//privateKey, publicKey := watoken.GenerateKey()
 	// loop database client untuk jalankan go helper.Connect(helper.GetClient(c.Params("+")), qr) disini pake for range
+	go helper.ConnectAllClient()
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))
 	url.Web(site)

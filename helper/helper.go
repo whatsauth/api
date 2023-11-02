@@ -36,9 +36,6 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 			deviceStore = dv
 		}
 	}
-	if err != nil {
-		fmt.Println(err)
-	}
 	if deviceStore == nil {
 		fmt.Println("buat device baru")
 		deviceStore = container.NewDevice()
@@ -79,5 +76,33 @@ func Connect(client *whatsmeow.Client, qr chan QRStatus) {
 		}
 		qr <- QRStatus{false, "", message}
 	}
+
+}
+
+func ConnectAllClient() {
+	dbLog := waLog.Stdout("Database", "DEBUG", true)
+	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
+	container, err := sqlstore.New("sqlite3", "file:wa.db?_foreign_keys=on", dbLog)
+	if err != nil {
+		panic(err)
+	}
+	// If you want multiple sessions, remember their JIDs and use .GetDevice(jid) or .GetAllDevices() instead.
+	//deviceStore, err := container.GetFirstDevice()
+	deviceStores, err := container.GetAllDevices()
+	//deviceStore, err := container.GetDevice(jid)
+	for _, deviceStore := range deviceStores {
+		clientLog := waLog.Stdout("Client", "ERROR", true)
+		client := whatsmeow.NewClient(deviceStore, clientLog)
+		client.AddEventHandler(EventHandler)
+		if client.Store.ID != nil {
+			err := client.Connect()
+			if err != nil {
+				fmt.Println(err)
+			}
+
+		}
+	}
+
+	return
 
 }
