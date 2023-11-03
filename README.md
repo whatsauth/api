@@ -51,3 +51,28 @@ reboot
 ```sh
 vim /etc/environment
 ```
+
+## NGINX Conf
+
+```conf
+server {
+    listen 443 ssl;
+
+    server_name api.wa.my.id;
+
+    ssl_certificate /etc/letsencrypt/live/api.wa.my.id/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.wa.my.id/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+	
+	client_max_body_size 999M;
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_set_header Host $host;
+    }
+}
+```
