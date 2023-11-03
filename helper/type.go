@@ -2,6 +2,8 @@ package helper
 
 import "go.mau.fi/whatsmeow"
 
+var Client []WaClient
+
 type QRStatus struct {
 	PhoneNumber string `json:"phonenumber"`
 	Status      bool   `json:"status"`
@@ -9,7 +11,8 @@ type QRStatus struct {
 	Message     string `json:"message"`
 }
 
-type MyClient struct {
+type WaClient struct {
+	PhoneNumber    string
 	WAClient       *whatsmeow.Client
 	eventHandlerID uint32
 }

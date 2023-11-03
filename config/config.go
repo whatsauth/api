@@ -6,7 +6,7 @@ import (
 )
 
 var Iteung = fiber.Config{
-	Prefork:       true,
+	Prefork:       false,
 	CaseSensitive: true,
 	StrictRouting: true,
 	ServerHeader:  "WhatsAuth",

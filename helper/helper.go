@@ -12,11 +12,11 @@ import (
 	waLog "go.mau.fi/whatsmeow/util/log"
 )
 
-func (mycli *MyClient) register() {
+func (mycli *WaClient) register() {
 	mycli.eventHandlerID = mycli.WAClient.AddEventHandler(mycli.EventHandler)
 }
 
-func (mycli *MyClient) EventHandler(evt interface{}) {
+func (mycli *WaClient) EventHandler(evt interface{}) {
 	switch v := evt.(type) {
 	case *events.Message:
 		go HandlingMessage(&v.Info, v.Message, mycli.WAClient)
@@ -49,7 +49,7 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 	//deviceStore, err := container.GetAllDevices()
 	clientLog := waLog.Stdout("Client", "ERROR", true)
 	client = whatsmeow.NewClient(deviceStore, clientLog)
-	var mycli MyClient
+	var mycli WaClient
 	mycli.WAClient = client
 	mycli.register()
 	return
@@ -59,6 +59,7 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 func Connect(PhoneNumber string, qr chan QRStatus) {
 	client := GetClient(PhoneNumber)
 	if client.Store.ID == nil {
+		//client.PairPhone(PhoneNumber, true, whatsmeow.PairClientUnknown, "wa.my.id")
 		qrChan, _ := client.GetQRChannel(context.Background())
 		err := client.Connect()
 		if err != nil {
@@ -115,7 +116,7 @@ func ConnectAllClient() {
 			fmt.Printf("%d. %s", i, deviceStore.ID.User)
 			clientLog := waLog.Stdout("Client", "ERROR", true)
 			client := whatsmeow.NewClient(deviceStore, clientLog)
-			var mycli MyClient
+			var mycli WaClient
 			mycli.WAClient = client
 			mycli.register()
 			//client.AddEventHandler(EventHandler)

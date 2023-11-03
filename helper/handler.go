@@ -1,11 +1,9 @@
 package helper
 
 import (
-	"api/config"
 	"fmt"
 	"time"
 
-	"github.com/aiteung/atdb"
 	"github.com/aiteung/module"
 	"github.com/aiteung/module/model"
 	"go.mau.fi/whatsmeow"
@@ -24,8 +22,8 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, Client *
 		//membuat struct untuk iteung v2
 		Pesan := module.Whatsmeow2Struct(WAIface)
 		//kirim ke backend iteung v2
-		resp, err := module.SendToIteungAPI(Pesan, config.WebHook)
-		atdb.InsertOneDoc(config.Mongoconn, "log_iteung_message", Pesan)
+		resp, err := module.SendToIteungAPI(Pesan, "")
+		//atdb.InsertOneDoc(config.Mongoconn, "log_iteung_message", Pesan)
 		//log error untuk debug
 		if err != "" {
 			fmt.Println(err)
