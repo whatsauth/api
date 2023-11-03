@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api/config"
 	"fmt"
 	"testing"
 
@@ -9,15 +10,15 @@ import (
 )
 
 func TestWatoken(t *testing.T) {
-	privateKey, publicKey := watoken.GenerateKey()
-	fmt.Println("privateKey : ", privateKey)
-	fmt.Println("publicKey : ", publicKey)
+	//privateKey, publicKey := watoken.GenerateKey()
+	//fmt.Println("privateKey : ", privateKey)
+	//fmt.Println("publicKey : ", publicKey)
 	userid := "awangga"
 
-	tokenstring, err := watoken.Encode(userid, privateKey)
+	tokenstring, err := watoken.EncodeforHours(userid, config.PrivateKey, 720) //30hari
 	require.NoError(t, err)
-	body, err := watoken.Decode(publicKey, tokenstring)
+	body, err := watoken.Decode(config.PublicKey, tokenstring)
 	fmt.Println("signed : ", tokenstring)
-	fmt.Println("isi : ", body)
+	fmt.Println("isi : ", body.Id)
 	require.NoError(t, err)
 }

@@ -3,9 +3,10 @@ package helper
 import "go.mau.fi/whatsmeow"
 
 type QRStatus struct {
-	Status  bool   `json:"status"`
-	QRCode  string `json:"qrcode"`
-	Message string `json:"message"`
+	PhoneNumber string `json:"phonenumber"`
+	Status      bool   `json:"status"`
+	QRCode      string `json:"qrcode"`
+	Message     string `json:"message"`
 }
 
 type MyClient struct {

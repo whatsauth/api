@@ -56,7 +56,8 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 
 }
 
-func Connect(client *whatsmeow.Client, qr chan QRStatus) {
+func Connect(PhoneNumber string, qr chan QRStatus) {
+	client := GetClient(PhoneNumber)
 	if client.Store.ID == nil {
 		qrChan, _ := client.GetQRChannel(context.Background())
 		err := client.Connect()
@@ -70,10 +71,10 @@ func Connect(client *whatsmeow.Client, qr chan QRStatus) {
 				// e.g. qrterminal.GenerateHalfBlock(evt.Code, qrterminal.L, os.Stdout)
 				// or just manually `echo 2@... | qrencode -t ansiutf8` in a terminal
 				fmt.Println("QR code:", evt.Code)
-				qr <- QRStatus{true, evt.Code, evt.Event}
+				qr <- QRStatus{PhoneNumber, true, evt.Code, evt.Event}
 			} else {
 				fmt.Println("Login event:", evt.Event)
-				qr <- QRStatus{true, evt.Code, evt.Event}
+				qr <- QRStatus{PhoneNumber, true, evt.Code, evt.Event}
 			}
 		}
 	} else {
@@ -82,7 +83,7 @@ func Connect(client *whatsmeow.Client, qr chan QRStatus) {
 		if err != nil {
 			message = err.Error()
 		}
-		qr <- QRStatus{false, "", message}
+		qr <- QRStatus{PhoneNumber, false, "", message}
 	}
 
 }

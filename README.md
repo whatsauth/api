@@ -1,5 +1,10 @@
 # api
 
+test token
+```txt
+v4.public.eyJleHAiOiIyMDIzLTEyLTAzVDE3OjQyOjQ0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wM1QxNzo0Mjo0NCswNzowMCIsImlkIjoiYXdhbmdnYSIsIm5iZiI6IjIwMjMtMTEtMDNUMTc6NDI6NDQrMDc6MDAifWMmQMzPu5CpQBm3Id0-ODEoWvwK_ABO2cw_07OXzpUtp1j2cdXEyimRvzCunJjcDCCqLbFNcqSZZxelcOzpKww
+```
+
 ## build
 
 ```sh
@@ -7,7 +12,7 @@ $env:GOOS = 'linux'
 $env:CGO_ENABLED = '1'
 go build
 scp -P 24520 api root@103.155.250.23:/root/api
-ssh -p 24520 root@103.155.250.23 chmod +x /root/temp
+ssh -p 24520 root@103.155.250.23 chmod +x /root/api
 ssh -p 24520 root@103.155.250.23 systemctl stop api
 ssh -p 24520 root@103.155.250.23 mv /root/temp /root/api
 ssh -p 24520 root@103.155.250.23 systemctl start api

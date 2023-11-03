@@ -18,4 +18,4 @@ var PhoneNumber = types.JID{
 	Server: "s.whatsapp.net",
 }
 
-var Port = ":80"
+var Port = ":8080"
