@@ -13,7 +13,7 @@ func TestWatoken(t *testing.T) {
 	//privateKey, publicKey := watoken.GenerateKey()
 	//fmt.Println("privateKey : ", privateKey)
 	//fmt.Println("publicKey : ", publicKey)
-	userid := "6287752000300"
+	userid := "6283131895000"
 
 	tokenstring, err := watoken.EncodeforHours(userid, config.PrivateKey, 720) //30hari
 	require.NoError(t, err)
