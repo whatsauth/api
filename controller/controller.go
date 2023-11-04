@@ -16,12 +16,20 @@ func Homepage(c *fiber.Ctx) error {
 }
 
 func Device(c *fiber.Ctx) error {
-	phonenumber := watoken.DecodeGetId(config.PublicKey, c.Params("+"))
-	qr := make(chan wa.QRStatus)
+	var resp wa.QRStatus
+	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
+	if err == nil {
+		phonenumber := payload.Id
+		qr := make(chan wa.QRStatus)
 
-	waclient := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn)
-	//go wa.QRConnect(waclient, qr)
-	go wa.PairConnect(waclient, qr)
-	a := <-qr
-	return c.JSON(a)
+		waclient := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn)
+		//go wa.QRConnect(waclient, qr)
+		go wa.PairConnect(waclient, qr)
+		resp = <-qr
+
+	} else {
+		resp = wa.QRStatus{Status: false, Message: "tidak terdaftar"}
+	}
+
+	return c.JSON(resp)
 }
