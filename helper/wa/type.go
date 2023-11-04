@@ -7,7 +7,7 @@ import (
 
 type TextMessage struct {
 	To       string `json:"to"`
-	IsGroup  bool   `json:"isgroup"`
+	IsGroup  bool   `json:"isgroup,omitempty"`
 	Messages string `json:"messages"`
 }
 
