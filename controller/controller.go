@@ -67,7 +67,7 @@ func SendMessage(c *fiber.Ctx) error {
 		}
 		resp, _ := atmessage.SendMessage(txt.Messages, types.NewJID(txt.To, server), client.WAClient)
 
-		response.Response = resp.ID + resp.Timestamp.GoString()
+		response.Response = resp.ID
 	}
 
 	return c.JSON(response)
