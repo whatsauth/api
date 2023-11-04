@@ -16,13 +16,12 @@ func Homepage(c *fiber.Ctx) error {
 }
 
 func Device(c *fiber.Ctx) error {
-	body, err := watoken.Decode(config.PublicKey, c.Params("+"))
-	if err != nil {
-		return err
-	}
+	phonenumber := watoken.DecodeGetId(config.PublicKey, c.Params("+"))
 	qr := make(chan wa.QRStatus)
 
-	go wa.Connect(body.Id, qr)
+	waclient := wa.GetWaClient(phonenumber, config.Client)
+	//go wa.QRConnect(waclient, qr)
+	go wa.PairConnect(waclient, qr)
 	a := <-qr
 	return c.JSON(a)
 }

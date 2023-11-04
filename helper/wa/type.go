@@ -5,7 +5,7 @@ import "go.mau.fi/whatsmeow"
 type QRStatus struct {
 	PhoneNumber string `json:"phonenumber"`
 	Status      bool   `json:"status"`
-	QRCode      string `json:"qrcode"`
+	Code        string `json:"code"`
 	Message     string `json:"message"`
 }
 

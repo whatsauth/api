@@ -7,7 +7,7 @@ import (
 	"go.mau.fi/whatsmeow/types"
 )
 
-var Client []wa.WaClient
+var Client []*wa.WaClient
 
 var Iteung = fiber.Config{
 	Prefork:       false,

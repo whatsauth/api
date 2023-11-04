@@ -25,7 +25,7 @@ func (mycli *WaClient) EventHandler(evt interface{}) {
 	// Handle event and access mycli.WAClient
 }
 
-func GetClient(phonenumber string) (client *whatsmeow.Client) {
+func ClientDB(phonenumber string) (client WaClient) {
 	dbLog := waLog.Stdout("Database", "ERROR", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
 	container, err := sqlstore.New("sqlite3", "file:wa.db?_foreign_keys=on", dbLog)
@@ -47,21 +47,18 @@ func GetClient(phonenumber string) (client *whatsmeow.Client) {
 		deviceStore = container.NewDevice()
 	}
 	//deviceStore, err := container.GetAllDevices()
-	clientLog := waLog.Stdout("Client", "ERROR", true)
-	client = whatsmeow.NewClient(deviceStore, clientLog)
-	var mycli WaClient
-	mycli.WAClient = client
-	mycli.register()
+	client.PhoneNumber = phonenumber
+	client.WAClient = whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
+	client.register()
 	return
 
 }
 
-func Connect(PhoneNumber string, qr chan QRStatus) {
-	client := GetClient(PhoneNumber)
-	if client.Store.ID == nil {
-		//client.PairPhone(PhoneNumber, true, whatsmeow.PairClientUnknown, "wa.my.id")
-		qrChan, _ := client.GetQRChannel(context.Background())
-		err := client.Connect()
+func QRConnect(client WaClient, qr chan QRStatus) {
+	if client.WAClient.Store.ID == nil {
+		//client.PairPhone(PhoneNumber, true, whatsmeow.PairClientUnknown, "whatsauth.my.id")
+		qrChan, _ := client.WAClient.GetQRChannel(context.Background())
+		err := client.WAClient.Connect()
 		if err != nil {
 			panic(err)
 		}
@@ -72,19 +69,43 @@ func Connect(PhoneNumber string, qr chan QRStatus) {
 				// e.g. qrterminal.GenerateHalfBlock(evt.Code, qrterminal.L, os.Stdout)
 				// or just manually `echo 2@... | qrencode -t ansiutf8` in a terminal
 				fmt.Println("QR code:", evt.Code)
-				qr <- QRStatus{PhoneNumber, true, evt.Code, evt.Event}
+				qr <- QRStatus{client.PhoneNumber, true, evt.Code, evt.Event}
 			} else {
 				fmt.Println("Login event:", evt.Event)
-				qr <- QRStatus{PhoneNumber, true, evt.Code, evt.Event}
+				qr <- QRStatus{client.PhoneNumber, true, evt.Code, evt.Event}
 			}
 		}
 	} else {
-		message := "login"
-		err := client.Connect()
+		message := "already login"
+		err := client.WAClient.Connect()
 		if err != nil {
 			message = err.Error()
 		}
-		qr <- QRStatus{PhoneNumber, false, "", message}
+		qr <- QRStatus{client.PhoneNumber, false, "", message}
+	}
+
+}
+
+func PairConnect(client WaClient, qr chan QRStatus) {
+	if client.WAClient.Store.ID == nil {
+		err := client.WAClient.Connect()
+		if err != nil {
+			panic(err)
+		}
+		// No ID stored, new login
+		message := "Pair Code Device"
+		code, err := client.WAClient.PairPhone(client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
+		if err != nil {
+			message = err.Error()
+		}
+		qr <- QRStatus{client.PhoneNumber, true, code, message}
+	} else {
+		message := "already login"
+		err := client.WAClient.Connect()
+		if err != nil {
+			message = err.Error()
+		}
+		qr <- QRStatus{client.PhoneNumber, false, "", message}
 	}
 
 }
