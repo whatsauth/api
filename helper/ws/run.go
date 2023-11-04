@@ -55,7 +55,7 @@ func RunSocket(c *websocket.Conn, PublicKey string) (Id string) { // call this f
 			Conn: c,
 		}
 		Register <- s
-		EventReadSocket(Id, PublicKey)
+		MagicLinkEvent(Id, PublicKey)
 		for {
 			messageType, message, err := s.Conn.ReadMessage()
 			if err != nil {

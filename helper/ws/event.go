@@ -1,23 +1,18 @@
 package ws
 
 import (
-	"api/helper/wa"
-	"fmt"
-	"log"
-
 	"github.com/whatsauth/watoken"
 )
 
-func EventReadSocket(roomId string, PublicKey string) {
-	phonenumber := watoken.DecodeGetId(PublicKey, roomId)
-	if phonenumber != "" {
-		infologin := wa.QRStatus{
-			PhoneNumber: phonenumber,
+func MagicLinkEvent(roomId string, PublicKey string) {
+	if roomId[0:1] == "v" {
+		phonenumber := watoken.DecodeGetId(PublicKey, roomId)
+		if phonenumber != "" {
+			var infologin LoginInfo
+			infologin.Uuid = roomId
+			infologin.Login = roomId
+			infologin.Phone = phonenumber
+			SendStructTo(roomId, infologin)
 		}
-		log.Println("Info Login EventReadSocket ", infologin)
-		SendStructTo(roomId, infologin)
-	} else {
-		fmt.Println("EventReadSocket: phonenumber is empty")
 	}
-
 }

@@ -16,3 +16,9 @@ var Clients = make(map[string]*websocket.Conn) // Note: although large maps with
 var Register = make(chan Client)               // Register channel for Client Struct
 var SendMesssage = make(chan Message)
 var Unregister = make(chan string)
+
+type LoginInfo struct {
+	Phone string `json:"phone,omitempty" bson:"phone,omitempty"`
+	Login string `json:"login,omitempty" bson:"login,omitempty"`
+	Uuid  string `json:"uuid,omitempty" bson:"uuid,omitempty"`
+}
