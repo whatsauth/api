@@ -2,7 +2,7 @@ package controller
 
 import (
 	"api/config"
-	"api/helper"
+	"api/helper/wa"
 
 	"github.com/aiteung/musik"
 	"github.com/whatsauth/watoken"
@@ -20,9 +20,9 @@ func Device(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	qr := make(chan helper.QRStatus)
+	qr := make(chan wa.QRStatus)
 
-	go helper.Connect(body.Id, qr)
+	go wa.Connect(body.Id, qr)
 	a := <-qr
 	return c.JSON(a)
 }

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"api/config"
-	"api/helper"
+	"api/helper/wa"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
@@ -16,7 +16,7 @@ import (
 func main() {
 	//privateKey, publicKey := watoken.GenerateKey()
 	// loop database client untuk jalankan go helper.Connect(helper.GetClient(c.Params("+")), qr) disini pake for range
-	helper.ConnectAllClient() // bahaya bug nya keluar semua device id nya
+	wa.ConnectAllClient() // bahaya bug nya keluar semua device id nya
 	//helper.Start(helper.GetClient("6287752000300"))
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))

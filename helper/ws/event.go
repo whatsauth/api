@@ -1,7 +1,7 @@
 package ws
 
 import (
-	"api/helper"
+	"api/helper/wa"
 	"fmt"
 	"log"
 
@@ -11,7 +11,7 @@ import (
 func EventReadSocket(roomId string, PublicKey string) {
 	phonenumber := watoken.DecodeGetId(PublicKey, roomId)
 	if phonenumber != "" {
-		infologin := helper.QRStatus{
+		infologin := wa.QRStatus{
 			PhoneNumber: phonenumber,
 		}
 		log.Println("Info Login EventReadSocket ", infologin)
