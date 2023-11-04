@@ -3,7 +3,9 @@ module api
 go 1.21.3
 
 require (
+	github.com/aiteung/atapi v0.0.16
 	github.com/aiteung/atdb v0.1.1
+	github.com/aiteung/atmessage v0.0.27
 	github.com/aiteung/module v0.0.27
 	github.com/aiteung/musik v0.0.5
 	github.com/gofiber/fiber/v2 v2.50.0
@@ -19,8 +21,6 @@ require (
 	aidanwoods.dev/go-result v0.1.0 // indirect
 	filippo.io/edwards25519 v1.0.0 // indirect
 	github.com/Rhymen/go-whatsapp v0.1.1 // indirect
-	github.com/aiteung/atapi v0.0.16 // indirect
-	github.com/aiteung/atmessage v0.0.27 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fasthttp/websocket v1.5.3 // indirect

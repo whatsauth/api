@@ -101,9 +101,12 @@ func PairConnect(client WaClient, qr chan QRStatus) {
 		qr <- QRStatus{client.PhoneNumber, true, code, message}
 	} else {
 		message := "already login"
-		err := client.WAClient.Connect()
-		if err != nil {
-			message = err.Error()
+		if !client.WAClient.IsConnected() {
+			message = "Melakukan Koneksi Ulang"
+			err := client.WAClient.Connect()
+			if err != nil {
+				message = err.Error()
+			}
 		}
 		qr <- QRStatus{client.PhoneNumber, false, "", message}
 	}
@@ -139,6 +142,7 @@ func ConnectAllClient() {
 			client := whatsmeow.NewClient(deviceStore, clientLog)
 			var mycli WaClient
 			mycli.WAClient = client
+			mycli.PhoneNumber = deviceStore.ID.User
 			mycli.register()
 			//client.AddEventHandler(EventHandler)
 			if client.Store.ID != nil {
