@@ -22,3 +22,9 @@ type LoginInfo struct {
 	Login string `json:"login,omitempty" bson:"login,omitempty"`
 	Uuid  string `json:"uuid,omitempty" bson:"uuid,omitempty"`
 }
+
+type WhatsauthRequest struct {
+	Uuid        string `json:"uuid,omitempty" bson:"uuid,omitempty"`
+	Phonenumber string `json:"phonenumber,omitempty" bson:"phonenumber,omitempty"`
+	Delay       uint32 `json:"delay,omitempty" bson:"delay,omitempty"`
+}

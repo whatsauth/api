@@ -15,6 +15,7 @@ require (
 	github.com/whatsauth/watoken v0.1.3
 	go.mau.fi/whatsmeow v0.0.0-20230817083005-1c185f033d88
 	go.mongodb.org/mongo-driver v1.11.6
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
@@ -41,7 +42,7 @@ require (
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/savsgio/gotils v0.0.0-20230208104028-c358bd845dee // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -57,6 +58,5 @@ require (
 	golang.org/x/sync v0.2.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
