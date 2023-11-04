@@ -123,7 +123,7 @@ func Start(client *whatsmeow.Client) {
 
 }
 
-func ConnectAllClient() {
+func ConnectAllClient(mongoconn *mongo.Database) {
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
 	container, err := sqlstore.New("sqlite3", "file:wa.db?_foreign_keys=on", dbLog)
@@ -143,6 +143,7 @@ func ConnectAllClient() {
 			var mycli WaClient
 			mycli.WAClient = client
 			mycli.PhoneNumber = deviceStore.ID.User
+			mycli.Mongoconn = mongoconn
 			mycli.register()
 			//client.AddEventHandler(EventHandler)
 			if client.Store.ID != nil {
