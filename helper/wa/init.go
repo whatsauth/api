@@ -113,16 +113,6 @@ func PairConnect(client WaClient, qr chan QRStatus) {
 
 }
 
-func Start(client *whatsmeow.Client) {
-	if client.Store.ID != nil {
-		err := client.Connect()
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
-
-}
-
 func ConnectAllClient(mongoconn *mongo.Database) {
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
