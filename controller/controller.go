@@ -55,15 +55,19 @@ func SendMessage(c *fiber.Ctx) error {
 	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
 	var response atmessage.Response
 	if err == nil {
-		var notif atmessage.Notif
-		err = c.BodyParser(&notif)
+		var txt wa.TextMessage
+		err = c.BodyParser(&txt)
 		if err != nil {
 			return err
 		}
 		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
-		resp, _ := atmessage.SendMessage(notif.Messages, types.NewJID(notif.User, notif.Server), client.WAClient)
+		server := "s.whatsapp.net"
+		if txt.IsGroup {
+			server = "g.us"
+		}
+		resp, _ := atmessage.SendMessage(txt.Messages, types.NewJID(txt.To, server), client.WAClient)
 
-		response.Response = resp.ID
+		response.Response = resp.ID + resp.Timestamp.GoString()
 	}
 
 	return c.JSON(response)

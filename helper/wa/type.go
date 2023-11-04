@@ -5,6 +5,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+type TextMessage struct {
+	To       string `json:"to"`
+	IsGroup  bool   `json:"isgroup"`
+	Messages string `json:"messages"`
+}
+
 type QRStatus struct {
 	PhoneNumber string `json:"phonenumber"`
 	Status      bool   `json:"status"`
