@@ -65,6 +65,7 @@ func SendMessage(c *fiber.Ctx) error {
 		if txt.IsGroup {
 			server = "g.us"
 		}
+		go client.WAClient.SendChatPresence(types.NewJID(txt.To, server), types.ChatPresenceComposing, types.ChatPresenceMediaText)
 		resp, _ := atmessage.SendMessage(txt.Messages, types.NewJID(txt.To, server), client.WAClient)
 
 		response.Response = resp.ID
