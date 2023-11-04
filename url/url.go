@@ -9,4 +9,5 @@ import (
 func Web(page *fiber.App) {
 	page.Get("/", controller.Homepage)
 	page.Get("/device/+", controller.Device)
+	page.Post("/send/message", controller.SendMessage)
 }
