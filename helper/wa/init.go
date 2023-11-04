@@ -4,12 +4,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/aiteung/atdb"
 	_ "github.com/mattn/go-sqlite3"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/store"
 	"go.mau.fi/whatsmeow/store/sqlstore"
 	"go.mau.fi/whatsmeow/types/events"
 	waLog "go.mau.fi/whatsmeow/util/log"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -113,7 +115,7 @@ func PairConnect(client WaClient, qr chan QRStatus) {
 
 }
 
-func ConnectAllClient(mongoconn *mongo.Database) {
+func ConnectAllClient(mongoconn *mongo.Database) (clients []*WaClient) {
 	dbLog := waLog.Stdout("Database", "DEBUG", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
 	container, err := sqlstore.New("sqlite3", "file:wa.db?_foreign_keys=on", dbLog)
@@ -128,19 +130,21 @@ func ConnectAllClient(mongoconn *mongo.Database) {
 	for i, deviceStore := range deviceStores {
 		if deviceStore.ID.User != nosebelumnya {
 			fmt.Printf("%d. %s", i, deviceStore.ID.User)
-			clientLog := waLog.Stdout("Client", "ERROR", true)
-			client := whatsmeow.NewClient(deviceStore, clientLog)
-			var mycli WaClient
-			mycli.WAClient = client
-			mycli.PhoneNumber = deviceStore.ID.User
-			mycli.Mongoconn = mongoconn
-			mycli.register()
+			client := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
 			//client.AddEventHandler(EventHandler)
-			if client.Store.ID != nil {
+			filter := bson.M{"phonenumber": deviceStore.ID.User}
+			_, err := atdb.GetOneLatestDoc[User](mongoconn, "user", filter)
+			if (client.Store.ID != nil) && (err == nil) {
+				var mycli WaClient
+				mycli.WAClient = client
+				mycli.PhoneNumber = deviceStore.ID.User
+				mycli.Mongoconn = mongoconn
+				mycli.register()
 				err := client.Connect()
 				if err != nil {
 					fmt.Println(err)
 				}
+				clients = append(clients, &mycli)
 
 			}
 			nosebelumnya = deviceStore.ID.User

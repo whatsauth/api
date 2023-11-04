@@ -6,8 +6,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var Client []*WaClient
-
 func GetWaClient(phonenumber string, client []*WaClient, mongoconn *mongo.Database) (waclient WaClient) {
 	id := WithPhoneNumber(phonenumber, client)
 	if id >= 0 {

@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	wa.ConnectAllClient(config.Mongoconn)
+	config.Client = wa.ConnectAllClient(config.Mongoconn)
 
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))
