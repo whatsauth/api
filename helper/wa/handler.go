@@ -22,7 +22,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, Client *
 		//membuat struct untuk iteung v2
 		Pesan := module.Whatsmeow2Struct(WAIface)
 		//kirim ke backend iteung v2
-		resp, err := module.SendToIteungAPI(Pesan, "")
+		resp, err := module.SendToIteungAPI(Pesan, "https://eov6tgpfbhsve67.m.pipedream.net")
 		//atdb.InsertOneDoc(config.Mongoconn, "log_iteung_message", Pesan)
 		//log error untuk debug
 		if err != "" {
