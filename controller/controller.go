@@ -19,7 +19,7 @@ func Device(c *fiber.Ctx) error {
 	phonenumber := watoken.DecodeGetId(config.PublicKey, c.Params("+"))
 	qr := make(chan wa.QRStatus)
 
-	waclient := wa.GetWaClient(phonenumber, wa.Client)
+	waclient := wa.GetWaClient(phonenumber, wa.Client, config.Mongoconn)
 	//go wa.QRConnect(waclient, qr)
 	go wa.PairConnect(waclient, qr)
 	a := <-qr

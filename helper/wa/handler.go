@@ -3,9 +3,6 @@ package wa
 import (
 	"time"
 
-	"api/config"
-	m "api/model"
-
 	"github.com/aiteung/atapi"
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"
@@ -28,7 +25,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 		Pesan := module.Whatsmeow2Struct(WAIface)
 		//kirim ke webhook
 		filter := bson.M{"phonenumber": client.PhoneNumber}
-		userdt, _ := atdb.GetOneLatestDoc[m.User](config.Mongoconn, "user", filter)
+		userdt, _ := atdb.GetOneLatestDoc[User](client.Mongoconn, "user", filter)
 		atapi.PostStructWithToken[atmessage.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
 
 		//			go client.WAClient.SendChatPresence(Info.Chat, "composing", "")

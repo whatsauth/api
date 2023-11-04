@@ -1,15 +1,19 @@
 package wa
 
-import "fmt"
+import (
+	"fmt"
+
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 var Client []*WaClient
 
-func GetWaClient(phonenumber string, client []*WaClient) (waclient WaClient) {
+func GetWaClient(phonenumber string, client []*WaClient, mongoconn *mongo.Database) (waclient WaClient) {
 	id := WithPhoneNumber(phonenumber, client)
 	if id >= 0 {
 		waclient = *client[id]
 	} else {
-		waclient = ClientDB(phonenumber)
+		waclient = ClientDB(phonenumber, mongoconn)
 		client = append(client, &waclient)
 	}
 	return

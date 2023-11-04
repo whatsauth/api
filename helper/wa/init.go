@@ -10,6 +10,7 @@ import (
 	"go.mau.fi/whatsmeow/store/sqlstore"
 	"go.mau.fi/whatsmeow/types/events"
 	waLog "go.mau.fi/whatsmeow/util/log"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func (mycli *WaClient) register() {
@@ -20,12 +21,10 @@ func (mycli *WaClient) EventHandler(evt interface{}) {
 	switch v := evt.(type) {
 	case *events.Message:
 		go HandlingMessage(&v.Info, v.Message, mycli)
-		fmt.Println("Received a message!", v.Message.GetConversation())
 	}
-	// Handle event and access mycli.WAClient
 }
 
-func ClientDB(phonenumber string) (client WaClient) {
+func ClientDB(phonenumber string, mongoconn *mongo.Database) (client WaClient) {
 	dbLog := waLog.Stdout("Database", "ERROR", true)
 	// Make sure you add appropriate DB connector imports, e.g. github.com/mattn/go-sqlite3 for SQLite
 	container, err := sqlstore.New("sqlite3", "file:wa.db?_foreign_keys=on", dbLog)
@@ -49,6 +48,7 @@ func ClientDB(phonenumber string) (client WaClient) {
 	//deviceStore, err := container.GetAllDevices()
 	client.PhoneNumber = phonenumber
 	client.WAClient = whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
+	client.Mongoconn = mongoconn
 	client.register()
 	return
 
