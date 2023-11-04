@@ -19,7 +19,7 @@ func (mycli *WaClient) register() {
 func (mycli *WaClient) EventHandler(evt interface{}) {
 	switch v := evt.(type) {
 	case *events.Message:
-		go HandlingMessage(&v.Info, v.Message, mycli.WAClient)
+		go HandlingMessage(&v.Info, v.Message, mycli)
 		fmt.Println("Received a message!", v.Message.GetConversation())
 	}
 	// Handle event and access mycli.WAClient

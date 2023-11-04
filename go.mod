@@ -14,6 +14,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/whatsauth/watoken v0.1.3
 	go.mau.fi/whatsmeow v0.0.0-20230817083005-1c185f033d88
+	go.mongodb.org/mongo-driver v1.11.6
 )
 
 require (
@@ -52,7 +53,6 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.mau.fi/libsignal v0.1.0 // indirect
 	go.mau.fi/util v0.0.0-20230805154123-3981666a86f1 // indirect
-	go.mongodb.org/mongo-driver v1.11.6 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect

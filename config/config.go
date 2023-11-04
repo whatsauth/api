@@ -1,13 +1,9 @@
 package config
 
 import (
-	"api/helper/wa"
-
 	"github.com/gofiber/fiber/v2"
 	"go.mau.fi/whatsmeow/types"
 )
-
-var Client []*wa.WaClient
 
 var Iteung = fiber.Config{
 	Prefork:       false,

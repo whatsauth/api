@@ -2,7 +2,7 @@ package wa
 
 import "fmt"
 
-var Client []WaClient
+var Client []*WaClient
 
 func GetWaClient(phonenumber string, client []*WaClient) (waclient WaClient) {
 	id := WithPhoneNumber(phonenumber, client)

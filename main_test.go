@@ -2,9 +2,11 @@ package main
 
 import (
 	"api/config"
+	"api/model"
 	"fmt"
 	"testing"
 
+	"github.com/aiteung/atdb"
 	"github.com/stretchr/testify/require"
 	"github.com/whatsauth/watoken"
 )
@@ -21,4 +23,14 @@ func TestWatoken(t *testing.T) {
 	fmt.Println("signed : ", tokenstring)
 	fmt.Println("isi : ", body.Id)
 	require.NoError(t, err)
+}
+
+func TestInsertDB(t *testing.T) {
+	var user = model.User{
+		PhoneNumber: "6283131895000",
+		WebHook:     model.WebHook{URL: "https://eov6tgpfbhsve67.m.pipedream.net", Secret: "sajdisandsa"},
+		Token:       "v4.public.eyJleHAiOiIyMDIzLTEyLTA0VDA5OjE1OjE0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wNFQwOToxNToxNCswNzowMCIsImlkIjoiNjI4MzEzMTg5NTAwMCIsIm5iZiI6IjIwMjMtMTEtMDRUMDk6MTU6MTQrMDc6MDAifSqR5kBfQhwRfrtrMiOxXNoPP0syIUPpEbtOMqdPOMEfXbOC6boO6NDFKCKKSqjY8WfTcDBXAHtC9N7NHjrvmwM",
+	}
+	atdb.InsertOneDoc(config.Mongoconn, "user", user)
+
 }
