@@ -6,39 +6,13 @@ import (
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"
-	"github.com/aiteung/musik"
+	"github.com/gofiber/fiber/v2"
 	"github.com/whatsauth/watoken"
 	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/bson"
-
-	"github.com/gofiber/fiber/v2"
 )
 
-func Homepage(c *fiber.Ctx) error {
-	ipaddr := musik.GetIPaddress()
-	return c.JSON(ipaddr)
-}
-
-func Device(c *fiber.Ctx) error {
-	var resp wa.QRStatus
-	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
-	if err == nil {
-		phonenumber := payload.Id
-		qr := make(chan wa.QRStatus)
-
-		waclient := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn)
-		//go wa.QRConnect(waclient, qr)
-		go wa.PairConnect(waclient, qr)
-		resp = <-qr
-
-	} else {
-		resp = wa.QRStatus{Status: false, Message: "tidak terdaftar"}
-	}
-
-	return c.JSON(resp)
-}
-
-func SignUp(c *fiber.Ctx) error {
+func SendTextMessage(c *fiber.Ctx) error {
 	var h Header
 	err := c.ReqHeaderParser(&h)
 	if err != nil {
@@ -65,8 +39,6 @@ func SignUp(c *fiber.Ctx) error {
 		resp, _ := atmessage.SendMessage(txt.Messages, types.NewJID(txt.To, server), client.WAClient)
 
 		response.Response = resp.ID
-	} else {
-		response.Response = "Sudah Terdaftar"
 	}
 
 	return c.JSON(response)
