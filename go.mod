@@ -11,6 +11,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/whatsauth/wa v0.0.1
 	github.com/whatsauth/watoken v0.1.3
+	github.com/whatsauth/ws v0.0.1
 	go.mongodb.org/mongo-driver v1.12.1
 )
 

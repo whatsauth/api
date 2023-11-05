@@ -4,7 +4,8 @@ import (
 	"log"
 
 	"api/config"
-	"api/helper/ws"
+
+	"github.com/whatsauth/ws"
 
 	"github.com/whatsauth/wa"
 
