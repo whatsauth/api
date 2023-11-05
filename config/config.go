@@ -1,7 +1,7 @@
 package config
 
 import (
-	"api/helper/wa"
+	"github.com/whatsauth/wa"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -2,9 +2,10 @@ package main
 
 import (
 	"api/config"
-	"api/helper/wa"
 	"fmt"
 	"testing"
+
+	"github.com/whatsauth/wa"
 
 	"github.com/aiteung/atdb"
 	"github.com/stretchr/testify/require"

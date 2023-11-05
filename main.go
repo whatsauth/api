@@ -4,8 +4,9 @@ import (
 	"log"
 
 	"api/config"
-	"api/helper/wa"
 	"api/helper/ws"
+
+	"github.com/whatsauth/wa"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 

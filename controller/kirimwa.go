@@ -2,7 +2,8 @@ package controller
 
 import (
 	"api/config"
-	"api/helper/wa"
+
+	"github.com/whatsauth/wa"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"

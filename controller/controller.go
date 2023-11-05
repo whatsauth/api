@@ -2,8 +2,9 @@ package controller
 
 import (
 	"api/config"
-	"api/helper/wa"
 	"net/url"
+
+	"github.com/whatsauth/wa"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/musik"
