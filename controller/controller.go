@@ -5,10 +5,8 @@ import (
 	"api/helper/wa"
 
 	"github.com/aiteung/atdb"
-	"github.com/aiteung/atmessage"
 	"github.com/aiteung/musik"
 	"github.com/whatsauth/watoken"
-	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -39,6 +37,7 @@ func Device(c *fiber.Ctx) error {
 
 func SignUp(c *fiber.Ctx) error {
 	var h Header
+	var useraccount wa.User
 	err := c.ReqHeaderParser(&h)
 	if err != nil {
 		return err
@@ -46,21 +45,18 @@ func SignUp(c *fiber.Ctx) error {
 	payload, err := watoken.Decode(config.PublicKey, h.Token)
 	if err != nil {
 		return err
-	}
-	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
-	var response atmessage.Response
-	if err == nil {
-		var txt wa.TextMessage
-		err = c.BodyParser(&txt)
+	} else {
+		var webhook wa.WebHook
+		err = c.BodyParser(&webhook)
 		if err != nil {
 			return err
 		}
-		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
-		resp, _ := wa.SendTextMessage(txt, client.WAClient)
-		response.Response = resp.ID
-	} else {
-		response.Response = "Sudah Terdaftar"
+		useraccount.PhoneNumber = payload.Id
+		useraccount.WebHook = webhook
+		newtoken, _ := watoken.EncodeforHours(payload.Id, config.PrivateKey, 720)
+		useraccount.Token = newtoken
+		atdb.InsertOneDoc(config.Mongoconn, "user", useraccount)
 	}
 
-	return c.JSON(response)
+	return c.JSON(useraccount)
 }
