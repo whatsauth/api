@@ -1,3 +1,4 @@
+go build
 scp -P 24520 api root@103.155.250.23:/root/apinew
 ssh -p 24520 root@103.155.250.23 chmod +x /root/apinew
 ssh -p 24520 root@103.155.250.23 ls -l

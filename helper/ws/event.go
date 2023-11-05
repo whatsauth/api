@@ -1,6 +1,8 @@
 package ws
 
 import (
+	"log"
+
 	"github.com/whatsauth/watoken"
 )
 
@@ -14,6 +16,8 @@ func MagicLinkEvent(roomId string, PublicKey, PrivateKey string) {
 			infologin.Login = newlogin
 			infologin.Phone = phonenumber
 			SendStructTo(roomId, infologin)
+			log.Print("Masuk Ke Magic Link Event : ")
+			log.Print(infologin)
 		}
 	}
 }
