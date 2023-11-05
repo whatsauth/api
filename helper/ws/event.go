@@ -18,7 +18,7 @@ func MagicLinkEvent(roomId string, PublicKey, PrivateKey string) {
 			infologin.Phone = phonenumber
 			n := 1
 			log.Println("Magic Link Event")
-			for Clients[roomId] == nil && n > 10 {
+			for Clients[roomId] == nil && n < 10 {
 				success := SendStructTo(roomId, infologin)
 				time.Sleep(500 * time.Millisecond)
 				log.Println(success)
