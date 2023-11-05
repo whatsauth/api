@@ -46,12 +46,9 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			Messages: "*wa.my.id login*\n",
 		}
 		wsstatus := ws.SendStructTo(req.Uuid, infologin)
-		if !wsstatus {
+		if !wsstatus && req.Uuid[0:1] != "m" {
 			txt.Messages += "Sesi QR sudah habis, mohon pastikan memiliki waktu cukup untuk scan QR."
-		} else {
-			txt.Messages += "Yey... login diterima kak, tunggu sebentar dan cek kembali browser dalam beberapa detik."
-		}
-		if req.Uuid[0:1] == "m" {
+		} else if req.Uuid[0:1] == "m" {
 			txt.Messages += "Selanjutnya kakak klik saja magic link di bawah ini ya kak:\n"
 			tokenstring, er := watoken.EncodeforSeconds(req.Phonenumber, config.PrivateKey, 30)
 			if er != nil {
@@ -60,6 +57,8 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 
 			urlakses := watoken.GetAppUrl(req.Uuid) + "?uuid=" + tokenstring
 			txt.Messages += urlakses
+		} else {
+			txt.Messages += "Yey... login diterima kak, tunggu sebentar dan cek kembali browser dalam beberapa detik."
 		}
 		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
