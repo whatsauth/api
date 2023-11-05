@@ -11,7 +11,7 @@ import (
 	"github.com/whatsauth/watoken"
 )
 
-func GenerateTokenKey(c *fiber.Ctx) error {
+func PostWhatsAuthRequest(c *fiber.Ctx) error {
 	var h Header
 	err := c.ReqHeaderParser(&h)
 	if err != nil {
@@ -19,7 +19,7 @@ func GenerateTokenKey(c *fiber.Ctx) error {
 	}
 	var req ws.WhatsauthRequest
 	var response atmessage.Response
-	if h.Token == "o8ud98fjs98dyu3n983whrn98iudsfnvo87987n9iufd7gs8wa3lmvfo8" {
+	if h.Token == config.WhatsAuthReqToken {
 		err := c.BodyParser(&req)
 		if err != nil {
 			return err
