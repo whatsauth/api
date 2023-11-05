@@ -5,10 +5,12 @@ import (
 	"api/helper/wa"
 	"api/helper/ws"
 
+	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
 	"github.com/whatsauth/watoken"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func PostWhatsAuthRequest(c *fiber.Ctx) error {
@@ -17,9 +19,14 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	var req ws.WhatsauthRequest
+	payload, err := watoken.Decode(config.PublicKey, h.Token)
+	if err != nil {
+		return err
+	}
+	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
 	var response atmessage.Response
-	if h.Token == config.WhatsAuthReqToken {
+	if err == nil {
+		var req ws.WhatsauthRequest
 		err := c.BodyParser(&req)
 		if err != nil {
 			return err
@@ -39,7 +46,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			Messages: "Berhasil",
 		}
 		ws.SendStructTo(req.Uuid, infologin)
-		client := wa.GetWaClient(config.WhatsAuthPhoneNumber, config.Client, config.Mongoconn)
+		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 		response.Response = resp.ID
 

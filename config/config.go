@@ -16,6 +16,4 @@ var Iteung = fiber.Config{
 	AppName:       "API Message Router",
 }
 
-var WhatsAuthPhoneNumber = "6283131895000"
-
 var Port = ":8080"
