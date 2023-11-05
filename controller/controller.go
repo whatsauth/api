@@ -3,6 +3,7 @@ package controller
 import (
 	"api/config"
 	"api/helper/wa"
+	"net/url"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/musik"
@@ -48,6 +49,10 @@ func SignUp(c *fiber.Ctx) error {
 	} else {
 		var webhook wa.WebHook
 		err = c.BodyParser(&webhook)
+		if err != nil {
+			return err
+		}
+		_, err := url.Parse(webhook.URL)
 		if err != nil {
 			return err
 		}
