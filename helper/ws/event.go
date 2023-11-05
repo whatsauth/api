@@ -15,9 +15,9 @@ func MagicLinkEvent(roomId string, PublicKey, PrivateKey string) {
 			infologin.Uuid = roomId
 			infologin.Login = newlogin
 			infologin.Phone = phonenumber
-			SendStructTo(roomId, infologin)
-			log.Print("Masuk Ke Magic Link Event : ")
-			log.Print(infologin)
+			res := SendStructTo(roomId, infologin)
+			log.Print("Masuk Ke Magic Link Event, status socket : ")
+			log.Print(res)
 		}
 	}
 }
