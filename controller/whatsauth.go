@@ -45,7 +45,10 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			IsGroup:  false,
 			Messages: "Berhasil",
 		}
-		ws.SendStructTo(req.Uuid, infologin)
+		wsstatus := ws.SendStructTo(req.Uuid, infologin)
+		if !wsstatus {
+			txt.Messages = "Status Socket Tertutup"
+		}
 		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 		response.Response = resp.ID
