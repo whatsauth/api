@@ -4,6 +4,7 @@ import (
 	"api/config"
 	"api/helper/wa"
 	"api/helper/ws"
+	"fmt"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"
@@ -48,6 +49,16 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 		wsstatus := ws.SendStructTo(req.Uuid, infologin)
 		if !wsstatus {
 			txt.Messages = "Status Socket Tertutup"
+		}
+		if req.Uuid[0:1] == "m" {
+			txt.Messages = "\n Selanjutnya kakak *tinggal login* ya kak."
+			tokenstring, er := watoken.EncodeforSeconds(req.Phonenumber, config.PrivateKey, 30)
+			if er != nil {
+				return er
+			}
+
+			urlakses := watoken.GetAppUrl(req.Uuid) + "?uuid=" + tokenstring
+			txt.Messages += fmt.Sprintf("Magic Link : %v", urlakses)
 		}
 		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
