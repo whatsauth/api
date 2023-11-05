@@ -2,7 +2,6 @@ package wa
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/aiteung/atdb"
 	_ "github.com/mattn/go-sqlite3"
@@ -44,7 +43,6 @@ func ClientDB(phonenumber string, mongoconn *mongo.Database) (client WaClient) {
 		}
 	}
 	if deviceStore == nil {
-		fmt.Println("buat device baru")
 		deviceStore = container.NewDevice()
 	}
 	//deviceStore, err := container.GetAllDevices()
@@ -67,13 +65,8 @@ func QRConnect(client WaClient, qr chan QRStatus) {
 		// No ID stored, new login
 		for evt := range qrChan {
 			if evt.Event == "code" {
-				// Render the QR code here
-				// e.g. qrterminal.GenerateHalfBlock(evt.Code, qrterminal.L, os.Stdout)
-				// or just manually `echo 2@... | qrencode -t ansiutf8` in a terminal
-				fmt.Println("QR code:", evt.Code)
 				qr <- QRStatus{client.PhoneNumber, true, evt.Code, evt.Event}
 			} else {
-				fmt.Println("Login event:", evt.Event)
 				qr <- QRStatus{client.PhoneNumber, true, evt.Code, evt.Event}
 			}
 		}
@@ -127,9 +120,8 @@ func ConnectAllClient(mongoconn *mongo.Database) (clients []*WaClient) {
 	deviceStores, err := container.GetAllDevices()
 	//deviceStore, err := container.GetDevice(jid)
 	nosebelumnya := ""
-	for i, deviceStore := range deviceStores {
+	for _, deviceStore := range deviceStores {
 		if deviceStore.ID.User != nosebelumnya {
-			fmt.Printf("%d. %s", i, deviceStore.ID.User)
 			client := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
 			//client.AddEventHandler(EventHandler)
 			filter := bson.M{"phonenumber": deviceStore.ID.User}
@@ -140,10 +132,7 @@ func ConnectAllClient(mongoconn *mongo.Database) (clients []*WaClient) {
 				mycli.PhoneNumber = deviceStore.ID.User
 				mycli.Mongoconn = mongoconn
 				mycli.register()
-				err := client.Connect()
-				if err != nil {
-					fmt.Println(err)
-				}
+				client.Connect()
 				clients = append(clients, &mycli)
 
 			}

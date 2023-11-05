@@ -1,8 +1,6 @@
 package wa
 
 import (
-	"fmt"
-
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -19,7 +17,6 @@ func GetWaClient(phonenumber string, client []*WaClient, mongoconn *mongo.Databa
 
 func WithPhoneNumber(phonenumber string, clients []*WaClient) int {
 	for i, client := range clients {
-		fmt.Println(client)
 		if client.PhoneNumber == phonenumber {
 			return i
 		}
