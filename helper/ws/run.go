@@ -11,7 +11,7 @@ func RunHub() { // Call this function on your main function before run fiber
 		select {
 		case connection := <-Register:
 			Clients[connection.Id] = connection.Conn
-			log.Println("connection registered")
+			log.Println("connection registered : ")
 			log.Println(connection)
 
 		case message := <-SendMesssage:
@@ -32,7 +32,7 @@ func RunHub() { // Call this function on your main function before run fiber
 	}
 }
 
-func RunSocket(c *websocket.Conn, PublicKey string) (Id string) { // call this function after declare URL routes
+func RunSocket(c *websocket.Conn, PublicKey, PrivateKey string) (Id string) { // call this function after declare URL routes
 	var s Client
 	// When the function returns, unregister the client and close the connection
 	defer func() {
@@ -55,7 +55,7 @@ func RunSocket(c *websocket.Conn, PublicKey string) (Id string) { // call this f
 			Conn: c,
 		}
 		Register <- s
-		MagicLinkEvent(Id, PublicKey)
+		MagicLinkEvent(Id, PublicKey, PrivateKey)
 		for {
 			messageType, message, err := s.Conn.ReadMessage()
 			if err != nil {

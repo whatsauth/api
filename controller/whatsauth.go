@@ -70,5 +70,5 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 }
 
 func WsWhatsAuth(c *websocket.Conn) {
-	ws.RunSocket(c, config.PublicKey)
+	ws.RunSocket(c, config.PublicKey, config.PrivateKey)
 }
