@@ -5,6 +5,7 @@ import (
 
 	"api/config"
 	"api/helper/wa"
+	"api/helper/ws"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
@@ -15,6 +16,7 @@ import (
 
 func main() {
 	config.Client = wa.ConnectAllClient(config.Mongoconn)
+	go ws.RunHub()
 
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))
