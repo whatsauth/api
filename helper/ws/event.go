@@ -15,7 +15,7 @@ func MagicLinkEvent(roomId string, PublicKey, PrivateKey string) {
 			infologin.Uuid = roomId
 			infologin.Login = newlogin
 			infologin.Phone = phonenumber
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(10 * time.Millisecond)
 			SendStructTo(roomId, infologin)
 
 		}
