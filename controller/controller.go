@@ -62,12 +62,11 @@ func SignUp(c *fiber.Ctx) error {
 		useraccount.WebHook = webhook
 		newtoken, _ := watoken.EncodeforHours(payload.Id, config.PrivateKey, 720)
 		useraccount.Token = newtoken
-		olddata, err := atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
-		if err != nil {
-			atdb.InsertOneDoc(config.Mongoconn, "user", useraccount)
-		} else {
-			useraccount = olddata
+		_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
+		if err == nil {
+			atdb.DeleteDoc(config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
 		}
+		atdb.InsertOneDoc(config.Mongoconn, "user", useraccount)
 
 	}
 
