@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/whatsauth/wa"
+	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/musik"
@@ -61,7 +62,13 @@ func SignUp(c *fiber.Ctx) error {
 		useraccount.WebHook = webhook
 		newtoken, _ := watoken.EncodeforHours(payload.Id, config.PrivateKey, 720)
 		useraccount.Token = newtoken
-		atdb.InsertOneDoc(config.Mongoconn, "user", useraccount)
+		olddata, err := atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
+		if err != nil {
+			atdb.InsertOneDoc(config.Mongoconn, "user", useraccount)
+		} else {
+			useraccount = olddata
+		}
+
 	}
 
 	return c.JSON(useraccount)
