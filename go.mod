@@ -20,7 +20,7 @@ require (
 	filippo.io/edwards25519 v1.0.0 // indirect
 	github.com/Rhymen/go-whatsapp v0.1.1 // indirect
 	github.com/aiteung/atapi v0.1.1 // indirect
-	github.com/aiteung/module v0.0.27 // indirect
+	github.com/aiteung/module v0.1.0 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/fasthttp/websocket v1.5.3 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
