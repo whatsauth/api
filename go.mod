@@ -8,7 +8,7 @@ require (
 	github.com/aiteung/musik v0.0.5
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/websocket/v2 v2.2.1
-	github.com/whatsauth/wa v0.0.1
+	github.com/whatsauth/wa v0.0.2
 	github.com/whatsauth/watoken v0.1.3
 	github.com/whatsauth/ws v0.0.1
 	go.mongodb.org/mongo-driver v1.12.1

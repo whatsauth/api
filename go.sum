@@ -123,8 +123,8 @@ github.com/valyala/fasthttp v1.50.0 h1:H7fweIlBm0rXLs2q0XbalvJ6r0CUPFWK3/bB4N13e
 github.com/valyala/fasthttp v1.50.0/go.mod h1:k2zXd82h/7UZc3VOdJ2WaUqt1uZ/XpXAfE9i+HBC3lA=
 github.com/valyala/tcplisten v1.0.0 h1:rBHj/Xf+E1tRGZyWIWwJDiRY0zc1Js+CV5DqwacVSA8=
 github.com/valyala/tcplisten v1.0.0/go.mod h1:T0xQ8SeCZGxckz9qRXTfG43PvQ/mcWh7FwZEA7Ioqkc=
-github.com/whatsauth/wa v0.0.1 h1:DTRLT1ISyTTUy5bYZrqbuS01uG36YytIMQWGkEfdRog=
-github.com/whatsauth/wa v0.0.1/go.mod h1:hqonTpbogvSK9FTRX9q0ngYRL2/hrkm8uCOBPFgWrUY=
+github.com/whatsauth/wa v0.0.2 h1:WBXxFzLzd4/xBtmy/pCKYEjbsU/3UYgpOvollje0v1Q=
+github.com/whatsauth/wa v0.0.2/go.mod h1:hqonTpbogvSK9FTRX9q0ngYRL2/hrkm8uCOBPFgWrUY=
 github.com/whatsauth/watoken v0.1.3 h1:ZZdhjjrv7bpgyecKBkywwsBC720Ev9Q8wBCMOXh1F5k=
 github.com/whatsauth/watoken v0.1.3/go.mod h1:bQpErZ47HgOi9JjRcCPQi7S0HlcO1c8JEzrX/DVCB4Y=
 github.com/whatsauth/ws v0.0.1 h1:HcHl3iRhHdrP1oeHyxN6Rg0NyAtpjC51Biev+n9Rbbs=
