@@ -20,7 +20,7 @@ func Device(c *fiber.Ctx) error {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
 
-		waclient := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn)
+		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
 		//go wa.QRConnect(waclient, qr)
 		go wa.PairConnect(waclient, qr)
 		resp = <-qr

@@ -62,7 +62,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 		} else {
 			txt.Messages += "Yey... login diterima kak, tunggu sebentar dan cek kembali browser dalam beberapa detik."
 		}
-		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
+		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 		response.Response = resp.ID
 

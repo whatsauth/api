@@ -30,7 +30,7 @@ func SendTextMessage(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		client := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn)
+		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 		response.Response = resp.ID
 	}
