@@ -8,16 +8,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/aiteung/atdb"
-	"github.com/aiteung/musik"
 	"github.com/whatsauth/watoken"
 
 	"github.com/gofiber/fiber/v2"
 )
-
-func Homepage(c *fiber.Ctx) error {
-	ipaddr := musik.GetIPaddress()
-	return c.JSON(ipaddr)
-}
 
 func Device(c *fiber.Ctx) error {
 	var resp wa.QRStatus

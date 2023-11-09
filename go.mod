@@ -5,7 +5,6 @@ go 1.21.3
 require (
 	github.com/aiteung/atdb v0.1.1
 	github.com/aiteung/atmessage v0.1.0
-	github.com/aiteung/musik v0.0.5
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/websocket/v2 v2.2.1
 	github.com/whatsauth/wa v0.0.2
@@ -21,6 +20,7 @@ require (
 	github.com/Rhymen/go-whatsapp v0.1.1 // indirect
 	github.com/aiteung/atapi v0.1.1 // indirect
 	github.com/aiteung/module v0.1.0 // indirect
+	github.com/aiteung/musik v0.0.5 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/fasthttp/websocket v1.5.3 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
