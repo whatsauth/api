@@ -17,7 +17,11 @@ import (
 )
 
 func main() {
-	config.Client = wa.ConnectAllClient(config.Mongoconn)
+	var err error
+	config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+	if err != nil {
+		log.Panic(err)
+	}
 	go ws.RunHub()
 
 	site := fiber.New(config.Iteung)
