@@ -48,7 +48,7 @@ func Device(c *fiber.Ctx) error {
 		resp = <-qr
 
 	} else {
-		resp = wa.QRStatus{Status: false, Message: "tidak terdaftar"}
+		resp = wa.QRStatus{Status: false, Message: "nomor tidak terdaftar"}
 	}
 
 	return c.JSON(resp)
