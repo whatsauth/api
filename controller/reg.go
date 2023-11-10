@@ -30,7 +30,7 @@ func ResetDevice(c *fiber.Ctx) error {
 		}
 
 	} else {
-		resp = wa.QRStatus{Status: false, Message: "tidak terdaftar"}
+		resp = wa.QRStatus{Status: false, Message: "nomor tidak terdaftar"}
 	}
 
 	return c.JSON(resp)
