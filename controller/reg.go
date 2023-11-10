@@ -21,10 +21,13 @@ func ResetDevice(c *fiber.Ctx) error {
 		qr := make(chan wa.QRStatus)
 
 		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		//go wa.QRConnect(waclient, qr)
-		wa.ResetDeviceStore(&waclient, config.ContainerDB)
-		go wa.PairConnect(waclient, qr)
-		resp = <-qr
+		err := wa.ResetDeviceStore(&waclient, config.ContainerDB)
+		if err != nil {
+			resp = wa.QRStatus{Status: false, Message: err.Error()}
+		} else {
+			go wa.PairConnect(waclient, qr)
+			resp = <-qr
+		}
 
 	} else {
 		resp = wa.QRStatus{Status: false, Message: "tidak terdaftar"}
@@ -41,7 +44,6 @@ func Device(c *fiber.Ctx) error {
 		qr := make(chan wa.QRStatus)
 
 		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		//go wa.QRConnect(waclient, qr)
 		go wa.PairConnect(waclient, qr)
 		resp = <-qr
 
