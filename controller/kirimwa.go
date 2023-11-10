@@ -32,7 +32,7 @@ func SendTextMessage(c *fiber.Ctx) error {
 		}
 		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
-		response.Response = resp.ID
+		response.Response = resp.ID + " " + resp.Timestamp.String() + " " + resp.DebugTimings.PeerEncrypt.String() + "" + resp.DebugTimings.GetDevices.String()
 	}
 
 	return c.JSON(response)
