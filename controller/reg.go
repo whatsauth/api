@@ -38,10 +38,13 @@ func ResetDevice(c *fiber.Ctx) error {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
 
-		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		err := wa.ResetDeviceStore(waclient, config.ContainerDB)
+		waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
 		if err != nil {
-			resp = wa.QRStatus{Status: false, Message: err.Error()}
+			resp = wa.QRStatus{Status: false, Message: "GetWaClient:" + err.Error()}
+		}
+		err = wa.ResetDeviceStore(waclient, config.ContainerDB)
+		if err != nil {
+			resp = wa.QRStatus{Status: false, Message: "ResetDeviceStore:" + err.Error()}
 		} else {
 			go wa.PairConnect(waclient, qr)
 			resp = <-qr
