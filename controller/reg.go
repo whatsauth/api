@@ -2,7 +2,6 @@ package controller
 
 import (
 	"api/config"
-	"fmt"
 	"net/url"
 
 	"github.com/whatsauth/wa"
@@ -57,14 +56,10 @@ func Device(c *fiber.Ctx) error {
 	if err == nil {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
-		fmt.Println("add Device :", payload.Id)
-
 		waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
 		if err != nil {
-			fmt.Println("GetWaClient", err)
 			resp = wa.QRStatus{Status: false, Message: err.Error()}
 		} else {
-			fmt.Println("Menuju PairConnect")
 			go wa.PairConnect(waclient, qr)
 			resp = <-qr
 		}
