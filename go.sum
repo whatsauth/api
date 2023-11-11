@@ -127,6 +127,8 @@ github.com/valyala/tcplisten v1.0.0 h1:rBHj/Xf+E1tRGZyWIWwJDiRY0zc1Js+CV5DqwacVS
 github.com/valyala/tcplisten v1.0.0/go.mod h1:T0xQ8SeCZGxckz9qRXTfG43PvQ/mcWh7FwZEA7Ioqkc=
 github.com/whatsauth/wa v0.1.2 h1:cednA2zZCkCTVzxeWv91pBJbLJwAg8OF5nWGkrGyErA=
 github.com/whatsauth/wa v0.1.2/go.mod h1:GM5E/keUw0CwgcG0nOgd1/QvTMK5NrizmSGJWOGajAg=
+github.com/whatsauth/wa v0.1.3 h1:0baoT19/IRhUzXZ04Mb6bFfq9FaRlQTGhzBioYu1DUo=
+github.com/whatsauth/wa v0.1.3/go.mod h1:GM5E/keUw0CwgcG0nOgd1/QvTMK5NrizmSGJWOGajAg=
 github.com/whatsauth/watoken v0.1.3 h1:ZZdhjjrv7bpgyecKBkywwsBC720Ev9Q8wBCMOXh1F5k=
 github.com/whatsauth/watoken v0.1.3/go.mod h1:bQpErZ47HgOi9JjRcCPQi7S0HlcO1c8JEzrX/DVCB4Y=
 github.com/whatsauth/ws v0.0.1 h1:HcHl3iRhHdrP1oeHyxN6Rg0NyAtpjC51Biev+n9Rbbs=
