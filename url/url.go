@@ -8,7 +8,7 @@ import (
 )
 
 func Web(page *fiber.App) {
-	page.Get("/api/reset/device/+", controller.ResetDevice)
+	page.Get("/api/start/device/+", controller.StartDevice)
 	page.Get("/api/device/+", controller.Device)
 
 	page.Post("/api/signup", controller.SignUp)

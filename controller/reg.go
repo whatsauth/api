@@ -31,7 +31,7 @@ func ClientList(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
-func ResetDevice(c *fiber.Ctx) error {
+func StartDevice(c *fiber.Ctx) error {
 	var resp wa.QRStatus
 	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
 	if err == nil {
