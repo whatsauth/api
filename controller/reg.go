@@ -42,7 +42,7 @@ func ResetDevice(c *fiber.Ctx) error {
 		if err != nil {
 			resp = wa.QRStatus{Status: false, Message: "GetWaClient:" + err.Error()}
 		}
-		err = wa.ResetDeviceStore(waclient, config.ContainerDB)
+		err = wa.ResetDeviceStore(config.Mongoconn, waclient, config.ContainerDB)
 		if err != nil {
 			resp = wa.QRStatus{Status: false, Message: "ResetDeviceStore:" + err.Error()}
 		} else {
