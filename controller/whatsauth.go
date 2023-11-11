@@ -60,7 +60,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			urlakses := watoken.GetAppUrl(req.Uuid) + "?uuid=" + tokenstring
 			txt.Messages += urlakses
 		} else {
-			txt.Messages += "Yey... login diterima kak, tunggu sebentar dan cek kembali browser dalam beberapa detik."
+			txt.Messages += "Yey... login diterima kak, silahkan kembali ke browser lagi ya."
 		}
 		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
