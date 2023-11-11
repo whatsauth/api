@@ -7,7 +7,7 @@ require (
 	github.com/aiteung/atmessage v0.1.0
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/websocket/v2 v2.2.1
-	github.com/whatsauth/wa v0.1.1
+	github.com/whatsauth/wa v0.1.2
 	github.com/whatsauth/watoken v0.1.3
 	github.com/whatsauth/ws v0.0.1
 	go.mau.fi/whatsmeow v0.0.0-20231110185952-cfd1bea9628a
