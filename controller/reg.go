@@ -61,9 +61,13 @@ func Device(c *fiber.Ctx) error {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
 
-		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		go wa.PairConnect(waclient, qr)
-		resp = <-qr
+		waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
+		if err != nil {
+			resp = wa.QRStatus{Status: false, Message: err.Error()}
+		} else {
+			go wa.PairConnect(waclient, qr)
+			resp = <-qr
+		}
 
 	} else {
 		resp = wa.QRStatus{Status: false, Message: "nomor tidak terdaftar"}
