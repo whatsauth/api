@@ -13,6 +13,24 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func ClientList(c *fiber.Ctx) error {
+	var resp wa.QRStatus
+	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
+	if err == nil {
+		phonenumber := payload.Id
+		qr := make(chan wa.QRStatus)
+
+		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
+		go wa.PairConnect(waclient, qr)
+		resp = <-qr
+
+	} else {
+		resp = wa.QRStatus{Status: false, Message: "nomor tidak terdaftar"}
+	}
+
+	return c.JSON(resp)
+}
+
 func ResetDevice(c *fiber.Ctx) error {
 	var resp wa.QRStatus
 	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
@@ -21,7 +39,7 @@ func ResetDevice(c *fiber.Ctx) error {
 		qr := make(chan wa.QRStatus)
 
 		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		err := wa.ResetDeviceStore(&waclient, config.ContainerDB)
+		err := wa.ResetDeviceStore(waclient, config.ContainerDB)
 		if err != nil {
 			resp = wa.QRStatus{Status: false, Message: err.Error()}
 		} else {

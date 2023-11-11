@@ -2,10 +2,15 @@ package main
 
 import (
 	"api/config"
-	"database/sql"
+	"fmt"
+	"log"
 	"testing"
 
-	"github.com/lib/pq"
+	"github.com/whatsauth/wa"
+	"go.mau.fi/whatsmeow"
+	"go.mau.fi/whatsmeow/store"
+	"go.mau.fi/whatsmeow/types"
+	waLog "go.mau.fi/whatsmeow/util/log"
 )
 
 /* func TestWatoken(t *testing.T) {
@@ -22,27 +27,42 @@ import (
 	require.NoError(t, err)
 } */
 
-func TestInsertDB(t *testing.T) {
-	pgUrl, err := pq.ParseURL(config.Postgrestring)
-	db, err := sql.Open("postgres", pgUrl)
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+var phonenumber = "6287752000300"
+var deviceid uint16
+var deviceStore *store.Device
 
-	// var user = wa.User{
-	// 	PhoneNumber: "62831",
-	// 	WebHook:     wa.WebHook{URL: "https://eov6tgpfbhsve67.m.pipedream.net", Secret: "sajdisandsa"},
-	// 	Token:       "v4.public.eyJleHAiOiIyMDIzLTEyLTA0VDA5OjE1OjE0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wNFQwOToxNToxNCswNzowMCIsImlkIjoiNjI4MzEzMTg5NTAwMCIsIm5iZiI6IjIwMjMtMTEtMDRUMDk6MTU6MTQrMDc6MDAifSqR5kBfQhwRfrtrMiOxXNoPP0syIUPpEbtOMqdPOMEfXbOC6boO6NDFKCKKSqjY8WfTcDBXAHtC9N7NHjrvmwM",
-	// }
-	// idinsert := atdb.InsertOneDoc(config.Mongoconn, "user", user)
-	// fmt.Println(idinsert)
-	// a, err := atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": "62831"})
-	// if err == nil {
-	// 	fmt.Println("ada isinya hapus dulu")
-	// }
-	// fmt.Println(a)
-	// fmt.Println(err)
-	// anu := atdb.ReplaceOneDoc(config.Mongoconn, "user", bson.M{"phonenumber": "628310"}, user)
-	// fmt.Println(anu.ModifiedCount)
+func TestGetAllDevice(t *testing.T) {
+	deviceStores, err := config.ContainerDB.GetAllDevices()
+	var deviceStore *store.Device
+	for _, dv := range deviceStores {
+		if dv.ID.User == phonenumber {
+			deviceStore = dv
+			deviceid = deviceStore.ID.Device
+			fmt.Println("device id:", deviceStore.ID.Device)
+		}
+	}
+	//deviceStore, err := config.ContainerDB.GetDevice(types.JID{User: "6287752000300", Server: "s.whatsapp.net"})
+	fmt.Println(deviceStore)
+	log.Println(err)
+	//clientLog := waLog.Stdout("Client", "DEBUG", true)
+	//client := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
+}
+func TestGetDevice(t *testing.T) {
+	deviceStore, err := config.ContainerDB.GetDevice(types.JID{User: phonenumber, Device: deviceid, Server: "s.whatsapp.net"})
+	fmt.Println(deviceStore)
+	log.Println(err)
+	//clientLog := waLog.Stdout("Client", "DEBUG", true)
+	//client := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
+}
+
+func TestNewClient(t *testing.T) {
+	WAClient := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
+	var txt wa.TextMessage
+	txt.IsGroup = false
+	txt.Messages = "main test func gol"
+	txt.To = "6281312000300"
+	resp, err := wa.SendTextMessage(txt, WAClient)
+	log.Println(resp)
+	log.Println(err)
+
 }

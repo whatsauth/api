@@ -7,10 +7,10 @@ require (
 	github.com/aiteung/atmessage v0.1.0
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/websocket/v2 v2.2.1
-	github.com/lib/pq v1.10.9
-	github.com/whatsauth/wa v0.0.7
+	github.com/whatsauth/wa v0.0.9
 	github.com/whatsauth/watoken v0.1.3
 	github.com/whatsauth/ws v0.0.1
+	go.mau.fi/whatsmeow v0.0.0-20231110185952-cfd1bea9628a
 	go.mongodb.org/mongo-driver v1.12.1
 )
 
@@ -32,6 +32,7 @@ require (
 	github.com/google/uuid v1.3.1 // indirect
 	github.com/gorilla/websocket v1.5.1 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
@@ -50,7 +51,6 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.mau.fi/libsignal v0.1.0 // indirect
 	go.mau.fi/util v0.2.0 // indirect
-	go.mau.fi/whatsmeow v0.0.0-20231110185952-cfd1bea9628a // indirect
 	golang.org/x/crypto v0.15.0 // indirect
 	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
