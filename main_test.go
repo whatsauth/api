@@ -3,30 +3,32 @@ package main
 import (
 	"api/config"
 	"fmt"
-	"log"
 	"testing"
 
-	"github.com/whatsauth/wa"
-	"go.mau.fi/whatsmeow"
-	"go.mau.fi/whatsmeow/store"
-	"go.mau.fi/whatsmeow/types"
-	waLog "go.mau.fi/whatsmeow/util/log"
+	"github.com/stretchr/testify/require"
+	"github.com/whatsauth/watoken"
 )
 
-/* func TestWatoken(t *testing.T) {
+func TestWatoken(t *testing.T) {
 	//privateKey, publicKey := watoken.GenerateKey()
 	//fmt.Println("privateKey : ", privateKey)
 	//fmt.Println("publicKey : ", publicKey)
-	userid := "6283131895000"
 
-	tokenstring, err := watoken.EncodeforHours(userid, config.PrivateKey, 720) //30hari
-	require.NoError(t, err)
+	tokenstring := "v4.public.eyJleHAiOiIyMDIzLTEyLTEwVDIxOjI0OjEwKzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0xMFQyMToyNDoxMCswNzowMCIsImlkIjoiNjI4ODEwODI3MjYzNzkiLCJuYmYiOiIyMDIzLTExLTEwVDIxOjI0OjEwKzA3OjAwIn3810IYPVFjPsoGFa2XVkzqcEyVoLmeZKp0UvwjWdmsKDFPaERJY2OzhMl6QCU33HMUOPjHBbKwDIOQmZN4hFoP"
 	body, err := watoken.Decode(config.PublicKey, tokenstring)
 	fmt.Println("signed : ", tokenstring)
 	fmt.Println("isi : ", body.Id)
 	require.NoError(t, err)
-} */
+	dvcs := config.ContainerDB.NewDevice()
+	fmt.Println(dvcs)
+	//waclient, err := wa.GetWaClient(body.Id, config.Client, config.Mongoconn, config.ContainerDB)
+	//qr := make(chan wa.QRStatus)
+	//wa.PairConnect(waclient, qr)
+	//resp := <-qr
+	//fmt.Println(resp)
+}
 
+/*
 var phonenumber = "6287752000300"
 var deviceid uint16
 var deviceStore *store.Device
@@ -53,9 +55,9 @@ func TestGetDevice(t *testing.T) {
 	log.Println(err)
 	//clientLog := waLog.Stdout("Client", "DEBUG", true)
 	//client := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
-}
+} */
 
-func TestNewClient(t *testing.T) {
+/* func TestNewClient(t *testing.T) {
 	WAClient := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
 	var txt wa.TextMessage
 	txt.IsGroup = false
@@ -65,4 +67,4 @@ func TestNewClient(t *testing.T) {
 	log.Println(resp)
 	log.Println(err)
 
-}
+} */
