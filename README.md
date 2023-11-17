@@ -102,10 +102,35 @@ server {
 /root/.fly/bin/flyctl proxy 5432 -a whatsauth 
 ```
 
+create db.sh
 ```sh
 #!/bin/sh
 while :
 do
   /root/.fly/bin/flyctl proxy 5432 -a whatsauth
 done
+```
+
+```sh
+vim /lib/systemd/system/db.service
+```
+
+```conf
+[Unit]
+Description=DB Server
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10s
+ExecStart=/root/db.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```sh
+systemctl enable db
+systemctl start db
+reboot
 ```
