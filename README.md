@@ -1,9 +1,11 @@
 # api
 
 test token
+
 ```txt
 v4.public.eyJleHAiOiIyMDIzLTEyLTAzVDE4OjEwOjI0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wM1QxODoxMDoyNCswNzowMCIsImlkIjoiNjI4Nzc1MjAwMDMwMCIsIm5iZiI6IjIwMjMtMTEtMDNUMTg6MTA6MjQrMDc6MDAifY0hFvyfUYFyAIHNZe-XolWxtU5ChlhxJEwXMdqnHMBIexQ00Ew88XGWmltFZGdo0m_ekhpV2oJElGR6eTK80Aw
 ```
+
 ```txt
 v4.public.eyJleHAiOiIyMDIzLTEyLTA0VDA5OjE1OjE0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wNFQwOToxNToxNCswNzowMCIsImlkIjoiNjI4MzEzMTg5NTAwMCIsIm5iZiI6IjIwMjMtMTEtMDRUMDk6MTU6MTQrMDc6MDAifSqR5kBfQhwRfrtrMiOxXNoPP0syIUPpEbtOMqdPOMEfXbOC6boO6NDFKCKKSqjY8WfTcDBXAHtC9N7NHjrvmwM
 ```
@@ -78,8 +80,8 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/api.wa.my.id/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-	
-	client_max_body_size 999M;
+ 
+ client_max_body_size 999M;
     location / {
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header X-Real-IP  $remote_addr;
@@ -89,4 +91,14 @@ server {
         proxy_set_header Host $host;
     }
 }
+```
+
+## Postgresql
+
+```sh
+/root/.fly/bin/flyctl auth login
+/root/.fly/bin/fly postgres create
+/root/.fly/bin/flyctl connect -a whatsauth
+/root/.fly/bin/flyctl postgres connect -a whatsauth
+/root/.fly/bin/flyctl proxy 5432 -a whatsauth 
 ```
