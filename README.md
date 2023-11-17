@@ -101,3 +101,11 @@ server {
 /root/.fly/bin/flyctl postgres connect -a whatsauth
 /root/.fly/bin/flyctl proxy 5432 -a whatsauth 
 ```
+
+```sh
+#!/bin/sh
+while :
+do
+  /root/.fly/bin/flyctl proxy 5432 -a whatsauth
+done
+```
