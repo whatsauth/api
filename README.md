@@ -98,7 +98,6 @@ server {
 ```sh
 /root/.fly/bin/flyctl auth login
 /root/.fly/bin/fly postgres create
-/root/.fly/bin/flyctl connect -a whatsauth
 /root/.fly/bin/flyctl postgres connect -a whatsauth
 /root/.fly/bin/flyctl proxy 5432 -a whatsauth 
 ```
