@@ -24,6 +24,7 @@ func SendTextMessage(c *fiber.Ctx) error {
 	}
 	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
 	var response atmessage.Response
+	response.Response = "WebHook Belum di daftarkan"
 	if err == nil {
 		var txt wa.TextMessage
 		err = c.BodyParser(&txt)
