@@ -30,13 +30,18 @@ func SendTextMessage(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
-		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 		var msg string
-		if resp.Timestamp.IsZero() {
-			msg = "device belum di start"
+		if txt.Messages == "" {
+			msg = "pesan kosong"
 		} else {
-			msg = "ID:" + resp.ID + " WARespon:" + resp.Timestamp.String() + " PeerTiming:" + resp.DebugTimings.PeerEncrypt.String() + " GetDeviceTiming:" + resp.DebugTimings.GetDevices.String()
+			client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
+			resp, _ := wa.SendTextMessage(txt, client.WAClient)
+
+			if resp.Timestamp.IsZero() {
+				msg = "device belum di start"
+			} else {
+				msg = "ID:" + resp.ID + " WARespon:" + resp.Timestamp.String() + " PeerTiming:" + resp.DebugTimings.PeerEncrypt.String() + " GetDeviceTiming:" + resp.DebugTimings.GetDevices.String()
+			}
 		}
 		response.Response = msg
 	}
