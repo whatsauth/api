@@ -113,25 +113,10 @@ done
 ```
 
 ```sh
-vim /lib/systemd/system/db.service
+crontab -e
 ```
 
 ```conf
-[Unit]
-Description=DB Server
-
-[Service]
-Type=simple
-Restart=always
-RestartSec=10s
-ExecStart=/root/db.sh
-
-[Install]
-WantedBy=multi-user.target
+@reboot /root/db.sh
 ```
 
-```sh
-systemctl enable db
-systemctl start db
-reboot
-```
