@@ -8,7 +8,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/websocket/v2 v2.2.1
 	github.com/lib/pq v1.10.9
-	github.com/whatsauth/wa v0.2.8
+	github.com/whatsauth/wa v0.2.9
 	github.com/whatsauth/watoken v0.1.3
 	github.com/whatsauth/ws v0.0.1
 	go.mau.fi/whatsmeow v0.0.0-20231117115946-30233d743d35
