@@ -20,8 +20,8 @@ func ClientList(c *fiber.Ctx) error {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
 
-		//waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		waclient, _ := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
+		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
+		//waclient, _ := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
 		go wa.PairConnect(waclient, qr)
 		resp = <-qr
 
@@ -37,7 +37,7 @@ func StartDevice(c *fiber.Ctx) error {
 	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
 	if err == nil {
 		phonenumber := payload.Id
-		config.Clients.List, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+		config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 		if err != nil {
 			resp = wa.QRStatus{Status: false, Message: "ResetDevice:" + err.Error()}
 		} else {
@@ -57,8 +57,8 @@ func Device(c *fiber.Ctx) error {
 	if err == nil {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
-		//waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		waclient, err := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
+		waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
+		//waclient, err := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
 		if err != nil {
 			resp = wa.QRStatus{Status: false, Message: err.Error()}
 		} else {

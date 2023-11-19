@@ -18,7 +18,7 @@ import (
 
 func main() {
 	var err error
-	config.Clients.List, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+	config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 	if err != nil {
 		log.Panic(err)
 	}
