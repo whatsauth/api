@@ -100,6 +100,7 @@ server {
 /root/.fly/bin/fly postgres create
 /root/.fly/bin/flyctl postgres connect -a whatsauth
 /root/.fly/bin/flyctl proxy 5432 -a whatsauth 
+/root/.fly/bin/flyctl postgres restart -a whatsauth
 ```
 
 create db.sh
