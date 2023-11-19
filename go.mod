@@ -8,7 +8,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/gofiber/websocket/v2 v2.2.1
 	github.com/lib/pq v1.10.9
-	github.com/whatsauth/wa v0.2.6
+	github.com/whatsauth/wa v0.2.7
 	github.com/whatsauth/watoken v0.1.3
 	github.com/whatsauth/ws v0.0.1
 	go.mongodb.org/mongo-driver v1.12.1
@@ -49,8 +49,8 @@ require (
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.mau.fi/libsignal v0.1.0 // indirect
-	go.mau.fi/util v0.2.0 // indirect
-	go.mau.fi/whatsmeow v0.0.0-20231110185952-cfd1bea9628a // indirect
+	go.mau.fi/util v0.2.1 // indirect
+	go.mau.fi/whatsmeow v0.0.0-20231117115946-30233d743d35 // indirect
 	golang.org/x/crypto v0.15.0 // indirect
 	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
