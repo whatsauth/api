@@ -35,7 +35,8 @@ func SendTextMessage(c *fiber.Ctx) error {
 		if txt.Messages == "" {
 			msg = "pesan kosong"
 		} else {
-			client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
+			//client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
+			client, _ := wa.SetWaClient(payload.Id, config.Clients, config.Mongoconn, config.ContainerDB)
 			resp, _ := wa.SendTextMessage(txt, client.WAClient)
 
 			if resp.Timestamp.IsZero() {

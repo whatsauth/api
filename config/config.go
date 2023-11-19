@@ -6,7 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-var Client []*wa.WaClient
+// var Client []*wa.WaClient
+var Clients *wa.Clients
 
 var Iteung = fiber.Config{
 	Prefork:       false,
