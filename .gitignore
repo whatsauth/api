@@ -21,3 +21,5 @@ api
 
 # Go workspace file
 go.work
+
+.idea/
