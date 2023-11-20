@@ -62,7 +62,7 @@ func Device(c *fiber.Ctx) error {
 		if err != nil {
 			resp = wa.QRStatus{Status: false, Message: err.Error()}
 		} else {
-			go wa.PairConnect(waclient, qr)
+			go wa.PairConnectStore(waclient, &config.MapClient, qr)
 			resp = <-qr
 		}
 
