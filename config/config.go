@@ -18,4 +18,4 @@ var Iteung = fiber.Config{
 	AppName:       "API Message Router",
 }
 
-var Port = ":8080"
+var Port = "0.0.0.0:8080"

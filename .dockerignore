@@ -6,9 +6,9 @@
 **/*.exe
 **/*.exe~
 **/*.dll
-**/*.bat
-**/*.md
-**/*.go
+**/*.so
+**/*.dylib
+#**/api
 **/*.db
 
 # Test binary, built with `go test -c`
@@ -18,13 +18,8 @@
 **/*.out
 
 # Dependency directories (remove the comment below to include it)
-config/
-controller/
-url/
+# vendor/
 
 # Go workspace file
 **/go.work
 fly.toml
-go.mod
-go.sum
-.env
