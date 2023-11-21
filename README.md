@@ -11,8 +11,10 @@ v4.public.eyJleHAiOiIyMDIzLTEyLTA0VDA5OjE1OjE0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wNF
 ```
 
 ## build
-
+CGO_ENABLED=0
+go build -a
 ```sh
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o api .
 $env:GOOS = 'linux'
 $env:CGO_ENABLED = '1'
 go build
