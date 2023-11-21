@@ -53,24 +53,26 @@ func StartDevice(c *fiber.Ctx) error {
 
 func Device(c *fiber.Ctx) error {
 	var resp wa.QRStatus
-	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
-	if err == nil {
-		phonenumber := payload.Id
-		qr := make(chan wa.QRStatus)
-		waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		//waclient, err := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
-		if err != nil {
-			resp = wa.QRStatus{Status: false, Message: err.Error()}
-		} else {
-			go wa.PairConnectStore(waclient, &config.MapClient, qr)
-			resp = <-qr
-		}
 
-	} else {
+	payload, err := watoken.Decode(config.PublicKey, c.Params("+"))
+	if err != nil {
 		resp = wa.QRStatus{Status: false, Message: "nomor tidak terdaftar"}
+		return c.JSON(resp)
 	}
 
+	phonenumber := payload.Id
+	qr := make(chan wa.QRStatus)
+	waclient, err := wa.GetWaClientMap(phonenumber, &config.MapClient, config.Mongoconn, config.ContainerDB)
+	//waclient, err := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
+	if err != nil {
+		resp = wa.QRStatus{Status: false, Message: err.Error()}
+		return c.JSON(resp)
+	}
+
+	go wa.PairConnectStore(waclient, &config.MapClient, qr)
+	resp = <-qr
 	return c.JSON(resp)
+
 }
 
 func SignUp(c *fiber.Ctx) error {
