@@ -7,6 +7,8 @@ app = "wamyid"
 primary_region = "sin"
 
 [build]
+  builder = "paketobuildpacks/builder:base"
+  buildpacks = ["gcr.io/paketo-buildpacks/go"]
 
 [http_service]
   internal_port = 8080
