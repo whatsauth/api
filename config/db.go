@@ -1,8 +1,10 @@
 package config
 
 import (
+	"database/sql"
 	"github.com/aiteung/atdb"
-	"github.com/whatsauth/wa"
+	"go.mau.fi/whatsmeow/store/sqlstore"
+	"log"
 )
 
 var MongoString string = "mongodb+srv://awangga:8uPiRHynbtRuHv6X@potp.x8hnwy3.mongodb.net/waapi"
@@ -23,4 +25,12 @@ var Mongoconn = atdb.MongoConnect(DBUlbimongoinfo)
 // var Postgrestring = "postgres://postgres:iMTFz957Ov9eTmh@127.0.0.1/whatsauth?sslmode=disable"
 var Postgrestring = "postgres://postgres:iMTFz957Ov9eTmh@whatsauth.flycast/whatsauth?sslmode=disable"
 
-var ContainerDB, _ = wa.CreateContainerDB(Postgrestring)
+var ContainerDB *sqlstore.Container
+
+func init() {
+	db, err := sql.Open("postgres", Postgrestring)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ContainerDB = sqlstore.NewWithDB(db, "postgres", nil)
+}
