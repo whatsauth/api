@@ -8,8 +8,6 @@ import (
 
 var Client []*wa.WaClient
 
-var MapClient = wa.NewMapClient()
-
 //var Clients *wa.Clients
 
 var Iteung = fiber.Config{
