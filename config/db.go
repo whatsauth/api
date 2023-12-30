@@ -23,9 +23,8 @@ var Mongoconn = atdb.MongoConnect(DBUlbimongoinfo)
 // neon tect 100hours
 // var Postgrestring = "postgresql://awangga:z9iNkyTFZOt5@ep-steep-pine-25929021-pooler.ap-southeast-1.aws.neon.tech/whatsauth?sslmode=require"
 // fly.io
-var Postgrestring = "postgres://postgres:iMTFz957Ov9eTmh@127.0.0.1/whatsauth?sslmode=disable"
-
-//var Postgrestring = "postgres://postgres:iMTFz957Ov9eTmh@whatsauth.flycast/whatsauth?sslmode=disable"
+// var Postgrestring = "postgres://postgres:iMTFz957Ov9eTmh@127.0.0.1/whatsauth?sslmode=disable"
+var Postgrestring = "postgres://postgres:iMTFz957Ov9eTmh@whatsauth.flycast/whatsauth?sslmode=disable"
 
 var ContainerDB *sqlstore.Container
 
