@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"log"
+
+	"github.com/gofiber/fiber/v2/middleware/logger"
 
 	"api/config"
 
@@ -18,12 +19,18 @@ import (
 )
 
 func main() {
-	clients, err := wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+	/* 	clients, err := wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+	   	if err != nil {
+	   		log.Panic(err)
+	   	}
+
+	   	config.MapClient.StoreAllClient(clients) */
+
+	var err error
+	config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 	if err != nil {
 		log.Panic(err)
 	}
-
-	config.MapClient.StoreAllClient(clients)
 
 	go ws.RunHub()
 
