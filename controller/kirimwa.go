@@ -2,6 +2,7 @@ package controller
 
 import (
 	"api/config"
+	"api/model"
 
 	"github.com/whatsauth/wa"
 
@@ -13,7 +14,7 @@ import (
 )
 
 func SendTextMessage(c *fiber.Ctx) error {
-	var h Header
+	var h model.Header
 
 	err := c.ReqHeaderParser(&h)
 	if err != nil {

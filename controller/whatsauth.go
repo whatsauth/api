@@ -2,7 +2,8 @@ package controller
 
 import (
 	"api/config"
-	"math/rand"
+	"api/helper"
+	"api/model"
 
 	"github.com/whatsauth/ws"
 
@@ -14,11 +15,10 @@ import (
 	"github.com/gofiber/websocket/v2"
 	"github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func PostWhatsAuthRequest(c *fiber.Ctx) error {
-	var h Header
+	var h model.Header
 	err := c.ReqHeaderParser(&h)
 	if err != nil {
 		return err
@@ -63,7 +63,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			txt.Messages += urlakses
 		} else {
 			filter := bson.M{"notif": "login"}
-			pick := PickPantun(filter)
+			pick := helper.PickPantun(filter)
 			txt.Messages += pick + "Yey... login diterima kak, silahkan kembali ke browser lagi ya."
 		}
 		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
@@ -78,16 +78,4 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 
 func WsWhatsAuth(c *websocket.Conn) {
 	ws.RunSocket(c, config.PublicKey, config.PrivateKey)
-}
-
-func PickPantun(filter primitive.M) string {
-	pantun := atdb.GetOneDoc[Pantun](config.Mongoconn, "pantun", filter)
-	pantuns := pantun.Pantun
-	randomIndex := rand.Intn(len(pantuns))
-	return pantuns[randomIndex]
-}
-
-type Pantun struct {
-	Notif  string   `bson:"notif"`
-	Pantun []string `bson:"pantun"`
 }

@@ -2,7 +2,7 @@ package controller
 
 import (
 	"api/config"
-	"log"
+	"api/model"
 	"net/url"
 
 	"github.com/whatsauth/wa"
@@ -67,7 +67,6 @@ func Device(c *fiber.Ctx) error {
 	waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
 	//waclient, err := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
 	if err != nil {
-		log.Println("error di getwaclientmap", err)
 		resp = wa.QRStatus{Status: false, Message: err.Error()}
 	} else {
 		go wa.PairConnectStore(waclient, &config.MapClient, qr)
@@ -77,7 +76,7 @@ func Device(c *fiber.Ctx) error {
 }
 
 func SignUp(c *fiber.Ctx) error {
-	var h Header
+	var h model.Header
 	var useraccount wa.User
 	err := c.ReqHeaderParser(&h)
 	if err != nil {
