@@ -2,6 +2,7 @@ package controller
 
 import (
 	"api/config"
+	"math/rand"
 
 	"github.com/whatsauth/ws"
 
@@ -13,6 +14,7 @@ import (
 	"github.com/gofiber/websocket/v2"
 	"github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func PostWhatsAuthRequest(c *fiber.Ctx) error {
@@ -45,7 +47,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 		var txt = wa.TextMessage{
 			To:       req.Phonenumber,
 			IsGroup:  false,
-			Messages: "*wa.my.id login*\n",
+			Messages: "*WhatsAuth Indonesia Login*\n",
 		}
 		wsstatus := ws.SendStructTo(req.Uuid, infologin)
 		if !wsstatus && req.Uuid[0:1] != "m" {
@@ -60,7 +62,9 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			urlakses := watoken.GetAppUrl(req.Uuid) + "?uuid=" + tokenstring
 			txt.Messages += urlakses
 		} else {
-			txt.Messages += "Yey... login diterima kak, silahkan kembali ke browser lagi ya."
+			filter := bson.M{"notif": "login"}
+			pick := PickPantun(filter)
+			txt.Messages += pick + "Yey... login diterima kak, silahkan kembali ke browser lagi ya."
 		}
 		client, _ := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
 		//client, _ := wa.SetWaClient(payload.Id, config.Clients, config.Mongoconn, config.ContainerDB)
@@ -74,4 +78,16 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 
 func WsWhatsAuth(c *websocket.Conn) {
 	ws.RunSocket(c, config.PublicKey, config.PrivateKey)
+}
+
+func PickPantun(filter primitive.M) string {
+	pantun := atdb.GetOneDoc[Pantun](config.Mongoconn, "pantun", filter)
+	pantuns := pantun.Pantun
+	randomIndex := rand.Intn(len(pantuns))
+	return pantuns[randomIndex]
+}
+
+type Pantun struct {
+	Notif  string   `bson:"notif"`
+	Pantun []string `bson:"pantun"`
 }
