@@ -19,15 +19,15 @@ import (
 )
 
 func main() {
-	/* 	clients, err := wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
-	   	if err != nil {
-	   		log.Panic(err)
-	   	}
+	clients, err := wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+	if err != nil {
+		log.Panic(err)
+	}
 
-	   	config.MapClient.StoreAllClient(clients) */
+	config.MapClient.StoreAllClient(clients)
 
-	var err error
-	config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
+	//var err error
+	//config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 	if err != nil {
 		log.Panic(err)
 	}
