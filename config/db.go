@@ -34,4 +34,8 @@ func init() {
 		log.Fatal(err)
 	}
 	ContainerDB = sqlstore.NewWithDB(db, "postgres", nil)
+	err = ContainerDB.Upgrade()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
