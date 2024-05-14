@@ -21,8 +21,13 @@ func ClientList(c *fiber.Ctx) error {
 		phonenumber := payload.Id
 		qr := make(chan wa.QRStatus)
 
-		waclient, _ := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-		//waclient, _ := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
+		waclient, IsNewClient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
+		if err != nil {
+			return err
+		}
+		if IsNewClient {
+			config.Client = append(config.Client, waclient)
+		}
 		go wa.PairConnect(waclient, qr)
 		resp = <-qr
 
@@ -63,9 +68,14 @@ func Device(c *fiber.Ctx) error {
 
 	phonenumber := payload.Id
 	qr := make(chan wa.QRStatus)
-	//waclient, err := wa.GetWaClientMap(phonenumber, &config.MapClient, config.Mongoconn, config.ContainerDB)
-	waclient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
-	//waclient, err := wa.SetWaClient(phonenumber, config.Clients, config.Mongoconn, config.ContainerDB)
+	waclient, IsNewClient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
+	if err != nil {
+		return err
+	}
+	if IsNewClient {
+		config.Client = append(config.Client, waclient)
+	}
+
 	if err != nil {
 		resp = wa.QRStatus{Status: false, Message: err.Error()}
 	} else {
