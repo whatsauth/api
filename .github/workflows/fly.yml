@@ -12,6 +12,6 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: |
           flyctl deploy --remote-only
-          flyctl secrets set API_KEY=your-api-key DATABASE_URL=your-database-url
+          flyctl secrets set MONGOSTRING=${{ secrets.MONGOSTRING }} PGSTRING=${{ secrets.PGSTRING }} PUBLICKEY=${{ secrets.PUBLICKEY }} PRIVATEKEY=${{ secrets.PRIVATEKEY }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
