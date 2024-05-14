@@ -19,13 +19,16 @@ func TestDB(t *testing.T) {
 	log.Println("Test Koneksi DB")
 
 	pgUrl, err := pq.ParseURL(config.Postgrestring)
+	if err != nil {
+		panic(err)
+	}
 	db, err := sql.Open("postgres", pgUrl)
 	db.SetConnMaxLifetime(time.Second * 15)
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
-	//err = db.Ping()
+	err = db.Ping()
 	if err != nil {
 		log.Println(err)
 	}
