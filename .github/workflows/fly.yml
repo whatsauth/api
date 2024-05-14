@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: |
-          flyctl deploy --remote-only
           flyctl secrets set MONGOSTRING=${{ secrets.MONGOSTRING }} PGSTRING=${{ secrets.PGSTRING }} PUBLICKEY=${{ secrets.PUBLICKEY }} PRIVATEKEY=${{ secrets.PRIVATEKEY }}
+          flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
