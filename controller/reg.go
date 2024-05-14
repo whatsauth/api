@@ -23,7 +23,8 @@ func ClientList(c *fiber.Ctx) error {
 
 		waclient, IsNewClient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
 		if err != nil {
-			return err
+			resp = wa.QRStatus{Status: false, Message: "nomor tidak terdaftar"}
+			return c.JSON(resp)
 		}
 		if IsNewClient {
 			config.Client = append(config.Client, waclient)
@@ -70,18 +71,15 @@ func Device(c *fiber.Ctx) error {
 	qr := make(chan wa.QRStatus)
 	waclient, IsNewClient, err := wa.GetWaClient(phonenumber, config.Client, config.Mongoconn, config.ContainerDB)
 	if err != nil {
-		return err
+		resp = wa.QRStatus{Status: false, Message: err.Error()}
+		return c.JSON(resp)
 	}
 	if IsNewClient {
 		config.Client = append(config.Client, waclient)
 	}
+	go wa.PairConnectStore(waclient, &config.MapClient, qr)
+	resp = <-qr
 
-	if err != nil {
-		resp = wa.QRStatus{Status: false, Message: err.Error()}
-	} else {
-		go wa.PairConnectStore(waclient, &config.MapClient, qr)
-		resp = <-qr
-	}
 	return c.JSON(resp)
 }
 
