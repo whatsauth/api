@@ -1,18 +1,10 @@
 # api
 
-test token
-
-```txt
-v4.public.eyJleHAiOiIyMDIzLTEyLTAzVDE4OjEwOjI0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wM1QxODoxMDoyNCswNzowMCIsImlkIjoiNjI4Nzc1MjAwMDMwMCIsIm5iZiI6IjIwMjMtMTEtMDNUMTg6MTA6MjQrMDc6MDAifY0hFvyfUYFyAIHNZe-XolWxtU5ChlhxJEwXMdqnHMBIexQ00Ew88XGWmltFZGdo0m_ekhpV2oJElGR6eTK80Aw
-```
-
-```txt
-v4.public.eyJleHAiOiIyMDIzLTEyLTA0VDA5OjE1OjE0KzA3OjAwIiwiaWF0IjoiMjAyMy0xMS0wNFQwOToxNToxNCswNzowMCIsImlkIjoiNjI4MzEzMTg5NTAwMCIsIm5iZiI6IjIwMjMtMTEtMDRUMDk6MTU6MTQrMDc6MDAifSqR5kBfQhwRfrtrMiOxXNoPP0syIUPpEbtOMqdPOMEfXbOC6boO6NDFKCKKSqjY8WfTcDBXAHtC9N7NHjrvmwM
-```
-
 ## build
+
 CGO_ENABLED=0
 go build -a
+
 ```sh
 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o api .
 $env:GOOS = 'linux'
@@ -106,6 +98,7 @@ server {
 ```
 
 create db.sh
+
 ```sh
 #!/bin/sh
 while :
@@ -121,4 +114,3 @@ crontab -e
 ```conf
 @reboot /root/db.sh
 ```
-
