@@ -4,6 +4,7 @@ import (
 	"api/model"
 	"context"
 	"encoding/base64"
+	"strconv"
 	"strings"
 
 	"github.com/aiteung/atmessage/mediadecrypt"
@@ -157,6 +158,20 @@ func GetStatusFromLink(WAIface model.IteungWhatsMeowConfig) (whmsg bool) {
 				if msg == "click_to_chat_link" {
 					whmsg = true
 				}
+			}
+		}
+	}
+	return
+}
+
+func GetEntryPointDetail(WAIface model.IteungWhatsMeowConfig) (details string) {
+	if WAIface.Message.GetExtendedTextMessage() != nil {
+		if WAIface.Message.GetExtendedTextMessage().GetContextInfo() != nil {
+			sumber := WAIface.Message.GetExtendedTextMessage().GetContextInfo().GetEntryPointConversionSource()
+			app := WAIface.Message.GetExtendedTextMessage().GetContextInfo().GetEntryPointConversionApp()
+			delay := WAIface.Message.GetExtendedTextMessage().GetContextInfo().GetEntryPointConversionDelaySeconds()
+			if sumber != "" {
+				details = sumber + "|" + app + "|" + strconv.FormatUint(uint64(delay), 10)
 			}
 		}
 	}

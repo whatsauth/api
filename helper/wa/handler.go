@@ -23,7 +23,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 			Info:     Info,
 			Message:  Message,
 		}
-		//simpan log pesan masuk
+		//simpan log pesan Message.ExtendedTextMessage.ContextInfo
 		go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
 		//membuat struct untuk iteung v2
 		Pesan := Whatsmeow2Struct(WAIface)
@@ -46,6 +46,7 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 	im.Chat_server = WAIface.Info.Chat.Server
 	im.Alias_name = WAIface.Info.PushName
 	im.Message = GetMessage(WAIface.Message)
+	im.EntryPoint = GetEntryPointDetail(WAIface)
 	im.From_link = GetStatusFromLink(WAIface)
 	if im.From_link {
 		im.From_link_delay = GetFromLinkDelay(WAIface.Message)

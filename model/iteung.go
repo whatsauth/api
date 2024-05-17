@@ -30,6 +30,7 @@ type IteungMessage struct {
 	Group              string  `json:"group,omitempty" bson:"group,omitempty"`
 	Alias_name         string  `json:"alias_name,omitempty" bson:"alias_name,omitempty"`
 	Message            string  `json:"messages,omitempty" bson:"messages,omitempty"`
+	EntryPoint         string  `json:"entrypoint,omitempty" bson:"entrypoint,omitempty"`
 	From_link          bool    `json:"from_link,omitempty" bson:"from_link,omitempty"`
 	From_link_delay    uint32  `json:"from_link_delay,omitempty" bson:"from_link_delay,omitempty"`
 	Is_group           bool    `json:"is_group,omitempty" bson:"is_group,omitempty"`
