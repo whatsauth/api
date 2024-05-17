@@ -5,7 +5,6 @@ go 1.22.3
 require (
 	github.com/aiteung/atdb v0.1.7
 	github.com/aiteung/atmessage v0.1.0
-	github.com/aiteung/module v0.1.2
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/gofiber/websocket/v2 v2.2.1
 	github.com/lib/pq v1.10.9
@@ -23,7 +22,7 @@ require (
 	aidanwoods.dev/go-result v0.1.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/Rhymen/go-whatsapp v0.1.1 // indirect
-	github.com/aiteung/atapi v0.1.1 // indirect
+	github.com/aiteung/module v0.1.2 // indirect
 	github.com/aiteung/musik v0.0.5 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/fasthttp/websocket v1.5.8 // indirect
@@ -31,7 +30,6 @@ require (
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.1 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect

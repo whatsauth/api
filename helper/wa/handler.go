@@ -2,12 +2,13 @@ package wa
 
 import (
 	"context"
+	"fmt"
 	"time"
+
+	"api/model"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"
-	"github.com/aiteung/module"
-	"github.com/aiteung/module/model"
 	waProto "go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,7 +24,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 			Message:  Message,
 		}
 		//membuat struct untuk iteung v2
-		Pesan := module.Whatsmeow2Struct(WAIface)
+		Pesan := Whatsmeow2Struct(WAIface)
 		//kirim ke webhook
 		filter := bson.M{"phonenumber": client.PhoneNumber}
 		userdt, _ := atdb.GetOneLatestDoc[User](client.Mongoconn, "user", filter)
@@ -35,4 +36,31 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 			client.WAClient.SendMessage(context.Background(), Info.Chat, &wamsg)
 		}
 	}
+}
+
+func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessage) {
+	im.Phone_number = GetPhoneNumber(WAIface)
+	im.Chat_number = WAIface.Info.Chat.User
+	im.Chat_server = WAIface.Info.Chat.Server
+	im.Alias_name = WAIface.Info.PushName
+	im.Message = GetMessage(WAIface.Message)
+	im.From_link = GetStatusFromLink(WAIface)
+	if im.From_link {
+		im.From_link_delay = GetFromLinkDelay(WAIface.Message)
+	}
+	im.Filename, im.Filedata = GetFile(WAIface.Waclient, WAIface.Message)
+	im.Longitude, im.Latitude, im.LiveLoc = GetLongLat(WAIface.Message)
+	if WAIface.Info.Chat.Server == "g.us" {
+		groupInfo, err := WAIface.Waclient.GetGroupInfo(WAIface.Info.Chat)
+		if err != nil {
+			fmt.Println("cek err : ", err)
+		}
+		if groupInfo != nil {
+			im.Group = groupInfo.GroupName.Name + "@" + WAIface.Info.Chat.User
+			im.Group_name = groupInfo.GroupName.Name
+			im.Group_id = WAIface.Info.Chat.User
+		}
+		im.Is_group = true
+	}
+	return
 }
