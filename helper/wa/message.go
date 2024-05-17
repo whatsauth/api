@@ -80,7 +80,6 @@ func GetLongLat(Message *waProto.Message) (long, lat float64, liveloc bool) {
 	} else if Message.LocationMessage != nil {
 		long = *Message.LocationMessage.DegreesLongitude
 		lat = *Message.LocationMessage.DegreesLatitude
-		liveloc = false
 	}
 	return
 }
