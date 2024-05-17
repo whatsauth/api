@@ -7,8 +7,8 @@ import (
 
 	"api/model"
 
-	"github.com/aiteung/atdb"
-	"github.com/aiteung/atmessage"
+	"api/helper/atdb"
+
 	waProto "go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,13 +23,15 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 			Info:     Info,
 			Message:  Message,
 		}
+		//simpan log pesan masuk
+		go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
 		//membuat struct untuk iteung v2
 		Pesan := Whatsmeow2Struct(WAIface)
 		//kirim ke webhook
 		filter := bson.M{"phonenumber": client.PhoneNumber}
 		userdt, _ := atdb.GetOneLatestDoc[User](client.Mongoconn, "user", filter)
 		go client.WAClient.SendChatPresence(Info.Chat, types.ChatPresenceComposing, types.ChatPresenceMediaText)
-		result, err := PostStructWithToken[atmessage.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
+		result, err := PostStructWithToken[model.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
 		if err != nil {
 			var wamsg waProto.Message
 			wamsg.Conversation = proto.String(err.Error() + " RESULT:" + result.Response)

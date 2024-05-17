@@ -8,3 +8,7 @@ type Pantun struct {
 	Notif  string   `bson:"notif"`
 	Pantun []string `bson:"pantun"`
 }
+
+type Response struct {
+	Response string `json:"response"`
+}
