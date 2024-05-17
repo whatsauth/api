@@ -4,7 +4,7 @@ import (
 	"api/config"
 	"api/model"
 
-	"github.com/whatsauth/wa"
+	"api/helper/wa"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"

@@ -9,7 +9,7 @@ import (
 
 	"github.com/whatsauth/ws"
 
-	"github.com/whatsauth/wa"
+	"api/helper/wa"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 

@@ -5,10 +5,12 @@ go 1.22.3
 require (
 	github.com/aiteung/atdb v0.1.7
 	github.com/aiteung/atmessage v0.1.0
+	github.com/aiteung/module v0.1.2
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/gofiber/websocket/v2 v2.2.1
 	github.com/lib/pq v1.10.9
-	github.com/whatsauth/wa v0.4.6
+	github.com/mattn/go-sqlite3 v1.14.22
+	github.com/puzpuzpuz/xsync/v3 v3.1.0
 	github.com/whatsauth/watoken v0.1.6
 	github.com/whatsauth/ws v0.0.2
 	go.mau.fi/whatsmeow v0.0.0-20240507080416-01b0547014dc
@@ -22,7 +24,6 @@ require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/Rhymen/go-whatsapp v0.1.1 // indirect
 	github.com/aiteung/atapi v0.1.1 // indirect
-	github.com/aiteung/module v0.1.2 // indirect
 	github.com/aiteung/musik v0.0.5 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/fasthttp/websocket v1.5.8 // indirect
@@ -37,16 +38,14 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
-	github.com/mattn/go-sqlite3 v1.14.22 // indirect
 	github.com/microsoft/go-mssqldb v1.7.1 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
-	github.com/puzpuzpuz/xsync/v3 v3.1.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/rs/zerolog v1.32.0 // indirect
 	github.com/savsgio/gotils v0.0.0-20240303185622-093b76447511 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.52.0 // indirect
+	github.com/valyala/fasthttp v1.53.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect

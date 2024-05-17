@@ -8,8 +8,9 @@ import (
 	"testing"
 	"time"
 
+	"api/helper/wa"
+
 	"github.com/lib/pq"
-	"github.com/whatsauth/wa"
 	waProto "go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"

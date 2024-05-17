@@ -5,7 +5,8 @@ import (
 	"api/model"
 	"net/url"
 
-	"github.com/whatsauth/wa"
+	"api/helper/wa"
+
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/aiteung/atdb"
