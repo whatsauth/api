@@ -35,7 +35,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		login, err := watoken.Encode(req.Phonenumber, config.PrivateKey)
+		login, err := watoken.EncodeforHours(req.Phonenumber, config.PrivateKey, 18)
 		if err != nil {
 			return err
 		}
