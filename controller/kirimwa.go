@@ -10,6 +10,7 @@ import (
 	"github.com/aiteung/atmessage"
 	"github.com/gofiber/fiber/v2"
 	"github.com/whatsauth/watoken"
+	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -49,6 +50,7 @@ func SendTextMessage(c *fiber.Ctx) error {
 		if IsNewClient {
 			config.Client = append(config.Client, client)
 		}
+		go client.WAClient.SendChatPresence(*client.WAClient.Store.ID, types.ChatPresenceComposing, types.ChatPresenceMediaText)
 		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 
 		if resp.Timestamp.IsZero() {
