@@ -13,6 +13,8 @@ var origins = []string{
 	"https://my.wa.my.id",
 	"https://lapor.acad-csirt.org",
 	"https://ux.ulbi.ac.id",
+	"https://www.do.my.id",
+	"https://do.my.id",
 }
 
 var Cors = cors.Config{
