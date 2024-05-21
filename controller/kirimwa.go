@@ -50,9 +50,23 @@ func SendTextMessage(c *fiber.Ctx) error {
 		if IsNewClient {
 			config.Client = append(config.Client, client)
 		}
-		go client.WAClient.SendChatPresence(*client.WAClient.Store.ID, types.ChatPresenceComposing, types.ChatPresenceMediaText)
-		resp, _ := wa.SendTextMessage(txt, client.WAClient)
 
+		var targetjid types.JID
+		targetjid.User = txt.To
+		if txt.IsGroup {
+			targetjid.Server = "g.us"
+		} else {
+			targetjid.Server = "s.whatsapp.net"
+		}
+		err = client.WAClient.SendChatPresence(targetjid, types.ChatPresenceComposing, types.ChatPresenceMediaText)
+		if err != nil {
+			return err
+		}
+
+		resp, err := wa.SendTextMessage(txt, client.WAClient)
+		if err != nil {
+			return err
+		}
 		if resp.Timestamp.IsZero() {
 			msg = "device belum di start"
 		} else {
