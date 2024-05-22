@@ -23,7 +23,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 			Message:  Message,
 		}
 		//simpan log pesan Message.ExtendedTextMessage.ContextInfo
-		go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
+		// go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
 		//membuat struct untuk iteung v2
 		Pesan := Whatsmeow2Struct(WAIface)
 		//kirim ke webhook
