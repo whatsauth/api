@@ -51,6 +51,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			Messages: "*WhatsAuth Indonesia Login*\n",
 		}
 		wsstatus := ws.SendStructTo(req.Uuid, infologin)
+		go atdb.InsertOneDoc(config.Mongoconn, "logwauth", req)
 		if !wsstatus && req.Uuid[0:1] != "m" {
 			txt.Messages += "Sesi QR sudah habis, mohon pastikan memiliki waktu cukup untuk scan QR."
 		} else if req.Uuid[0:1] == "m" {
