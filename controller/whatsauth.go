@@ -5,15 +5,16 @@ import (
 	"api/helper"
 	"api/model"
 
-	"github.com/whatsauth/ws"
+	"api/helper/ws"
 
 	"api/helper/wa"
+
+	"api/helper/watoken"
 
 	"github.com/aiteung/atdb"
 	"github.com/aiteung/atmessage"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
-	"github.com/whatsauth/watoken"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -35,7 +36,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
-		login, err := watoken.EncodeforHours(req.Phonenumber, config.PrivateKey, 18)
+		login, err := watoken.EncodeforHours(req.Phonenumber, req.Aliasname, config.PrivateKey, 18)
 		if err != nil {
 			return err
 		}

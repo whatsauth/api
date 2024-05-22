@@ -3,6 +3,7 @@ module api
 go 1.22.3
 
 require (
+	aidanwoods.dev/go-paseto v1.5.1
 	github.com/aiteung/atdb v0.1.7
 	github.com/aiteung/atmessage v0.1.0
 	github.com/gofiber/fiber/v2 v2.52.4
@@ -14,11 +15,11 @@ require (
 	github.com/whatsauth/ws v0.0.2
 	go.mau.fi/whatsmeow v0.0.0-20240507080416-01b0547014dc
 	go.mongodb.org/mongo-driver v1.15.0
+	golang.org/x/crypto v0.23.0
 	google.golang.org/protobuf v1.34.1
 )
 
 require (
-	aidanwoods.dev/go-paseto v1.5.1 // indirect
 	aidanwoods.dev/go-result v0.1.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/Rhymen/go-whatsapp v0.1.1 // indirect
@@ -51,7 +52,6 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20240424034433-3c2c7870ae76 // indirect
 	go.mau.fi/libsignal v0.1.0 // indirect
 	go.mau.fi/util v0.4.2 // indirect
-	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
