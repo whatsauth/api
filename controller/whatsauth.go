@@ -11,8 +11,8 @@ import (
 
 	"api/helper/watoken"
 
-	"github.com/aiteung/atdb"
-	"github.com/aiteung/atmessage"
+	"api/helper/atdb"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -29,7 +29,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 		return err
 	}
 	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
-	var response atmessage.Response
+	var response model.Response
 	if err == nil {
 		var req ws.WhatsauthRequest
 		err := c.BodyParser(&req)

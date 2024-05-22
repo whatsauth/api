@@ -9,8 +9,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/aiteung/atdb"
-	"github.com/whatsauth/watoken"
+	"api/helper/atdb"
+	"api/helper/watoken"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -106,9 +106,9 @@ func SignUp(c *fiber.Ctx) error {
 		}
 		useraccount.PhoneNumber = payload.Id
 		useraccount.WebHook = webhook
-		newtoken, _ := watoken.EncodeforHours(payload.Id, config.PrivateKey, 720)
+		newtoken, _ := watoken.EncodeforHours(payload.Id, payload.Alias, config.PrivateKey, 720)
 		useraccount.Token = newtoken
-		apdet := atdb.ReplaceOneDoc(config.Mongoconn, "user", bson.M{"phonenumber": payload.Id}, useraccount)
+		apdet, _ := atdb.ReplaceOneDoc(config.Mongoconn, "user", bson.M{"phonenumber": payload.Id}, useraccount)
 		if apdet.ModifiedCount == 0 {
 			atdb.InsertOneDoc(config.Mongoconn, "user", useraccount)
 		}

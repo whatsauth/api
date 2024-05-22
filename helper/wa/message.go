@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aiteung/atmessage/mediadecrypt"
 	"go.mau.fi/whatsmeow"
 	waProto "go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"
@@ -123,7 +122,7 @@ func GetFile(client *whatsmeow.Client, Message *waProto.Message) (filename, file
 		filedata = base64.StdEncoding.EncodeToString(payload)
 	} else if img := Message.GetImageMessage(); img != nil {
 		filename = strings.ReplaceAll(*img.Mimetype, "/", ".")
-		filedata = mediadecrypt.GetBase64Filedata(img.Url, img.GetMediaKey())
+		filedata = GetBase64Filedata(img.Url, img.GetMediaKey())
 		payload, err := client.Download(img)
 		if err != nil {
 			return

@@ -7,7 +7,7 @@ import (
 
 	"api/config"
 
-	"github.com/whatsauth/ws"
+	"api/helper/ws"
 
 	"api/helper/wa"
 

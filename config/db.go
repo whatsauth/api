@@ -5,7 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/aiteung/atdb"
+	"api/helper/atdb"
+
 	"go.mau.fi/whatsmeow/store/sqlstore"
 )
 
@@ -16,7 +17,7 @@ var DBUlbimongoinfo = atdb.DBInfo{
 	DBName:   "waapi",
 }
 
-var Mongoconn = atdb.MongoConnect(DBUlbimongoinfo)
+var Mongoconn, ErrorConnect = atdb.MongoConnect(DBUlbimongoinfo)
 
 var Postgrestring = os.Getenv("PGSTRING")
 

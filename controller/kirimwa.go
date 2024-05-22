@@ -6,10 +6,10 @@ import (
 
 	"api/helper/wa"
 
-	"github.com/aiteung/atdb"
-	"github.com/aiteung/atmessage"
+	"api/helper/atdb"
+	"api/helper/watoken"
+
 	"github.com/gofiber/fiber/v2"
-	"github.com/whatsauth/watoken"
 	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -28,7 +28,7 @@ func SendTextMessage(c *fiber.Ctx) error {
 	}
 
 	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
-	var response atmessage.Response
+	var response model.Response
 	response.Response = "WebHook Belum di daftarkan"
 	if err != nil {
 		return c.JSON(response)

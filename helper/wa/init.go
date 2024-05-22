@@ -5,7 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/aiteung/atdb"
+	"api/helper/atdb"
+
 	"github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	"go.mau.fi/whatsmeow"

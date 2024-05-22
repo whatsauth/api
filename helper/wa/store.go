@@ -3,7 +3,8 @@ package wa
 import (
 	"fmt"
 
-	"github.com/aiteung/atdb"
+	"api/helper/atdb"
+
 	"go.mau.fi/whatsmeow/store/sqlstore"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
