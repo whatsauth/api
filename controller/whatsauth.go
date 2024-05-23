@@ -56,7 +56,7 @@ func PostWhatsAuthRequest(c *fiber.Ctx) error {
 			txt.Messages += "Sesi QR sudah habis, mohon pastikan memiliki waktu cukup untuk scan QR."
 		} else if req.Uuid[0:1] == "m" {
 			txt.Messages += "Selanjutnya kakak klik saja magic link di bawah ini ya kak:\n"
-			tokenstring, er := watoken.EncodeforSeconds(req.Phonenumber, config.PrivateKey, 30)
+			tokenstring, er := watoken.EncodeforSeconds(req.Phonenumber, req.Aliasname, config.PrivateKey, 30)
 			if er != nil {
 				return er
 			}

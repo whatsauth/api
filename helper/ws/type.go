@@ -19,6 +19,7 @@ var Unregister = make(chan string)
 
 type LoginInfo struct {
 	Phone string `json:"phone,omitempty" bson:"phone,omitempty"`
+	Alias string `json:"alias,omitempty" bson:"alias,omitempty"`
 	Login string `json:"login,omitempty" bson:"login,omitempty"`
 	Uuid  string `json:"uuid,omitempty" bson:"uuid,omitempty"`
 }
