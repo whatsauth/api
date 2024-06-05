@@ -9,6 +9,7 @@ import (
 
 	"api/helper/ws"
 
+	"api/helper/chatroot"
 	"api/helper/wa"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -33,6 +34,7 @@ func main() {
 	}
 
 	go ws.RunHub()
+	go chatroot.RunHub()
 
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))
