@@ -4,6 +4,7 @@ import (
 	"api/model"
 	"context"
 	"encoding/base64"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -24,14 +25,26 @@ func SendImageMessage(img ImageMessage, whatsapp *whatsmeow.Client) (resp whatsm
 		return resp, err
 	}
 
-	var wamsg waProto.Message
-	wamsg.ImageMessage = &waProto.ImageMessage{
-		Mimetype:      proto.String("image/jpeg"), // atau mime type lain sesuai format gambar
-		JpegThumbnail: imageData,
-		Caption:       proto.String(img.Caption),
+	respupload, err := whatsapp.Upload(context.Background(), imageData, whatsmeow.MediaImage)
+	if err != nil {
+		return resp, err
 	}
 
-	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(img.To, server), &wamsg)
+	imgMsg := &waProto.ImageMessage{
+		Caption:       proto.String(img.Caption),
+		Url:           proto.String(respupload.URL),
+		DirectPath:    proto.String(respupload.DirectPath),
+		MediaKey:      respupload.MediaKey,
+		Mimetype:      proto.String(http.DetectContentType(imageData)),
+		FileEncSha256: respupload.FileEncSHA256,
+		FileSha256:    respupload.FileSHA256,
+		FileLength:    proto.Uint64(uint64(len(imageData))),
+	}
+
+	imgMessage := &waProto.Message{
+		ImageMessage: imgMsg,
+	}
+	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(img.To, server), imgMessage)
 	return resp, err
 }
 
