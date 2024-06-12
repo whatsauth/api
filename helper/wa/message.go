@@ -4,6 +4,7 @@ import (
 	"api/model"
 	"context"
 	"encoding/base64"
+	"io/ioutil"
 	"strconv"
 	"strings"
 
@@ -12,6 +13,30 @@ import (
 	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
 )
+
+func SendImageMessage(img ImageMessage, whatsapp *whatsmeow.Client) (resp whatsmeow.SendResponse, err error) {
+	server := "s.whatsapp.net"
+	if img.IsGroup {
+		server = "g.us"
+	}
+
+	imageData, err := ioutil.ReadFile(img.ImagePath)
+	if err != nil {
+		return resp, err
+	}
+
+	encodedImage := base64.StdEncoding.EncodeToString(imageData)
+
+	var wamsg waProto.Message
+	wamsg.ImageMessage = &waProto.ImageMessage{
+		Mimetype:      proto.String("image/jpeg"), // atau mime type lain sesuai format gambar
+		JpegThumbnail: []byte(encodedImage),
+		Caption:       proto.String(img.Caption),
+	}
+
+	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(img.To, server), &wamsg)
+	return resp, err
+}
 
 func SendTextMessage(txt TextMessage, whatsapp *whatsmeow.Client) (resp whatsmeow.SendResponse, err error) {
 	server := "s.whatsapp.net"

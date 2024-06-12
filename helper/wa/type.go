@@ -5,6 +5,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+type ImageMessage struct {
+	To        string
+	ImagePath string
+	Caption   string
+	IsGroup   bool
+}
+
 type TextMessage struct {
 	To       string `json:"to"`
 	IsGroup  bool   `json:"isgroup,omitempty"`
