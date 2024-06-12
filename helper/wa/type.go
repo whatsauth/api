@@ -6,10 +6,10 @@ import (
 )
 
 type ImageMessage struct {
-	To          string
-	Base64Image string
-	Caption     string
-	IsGroup     bool
+	To          string `json:"to"`
+	Base64Image string `json:"base64image"`
+	Caption     string `json:"caption,omitempty"`
+	IsGroup     bool   `json:"isgroup,omitempty"`
 }
 
 type TextMessage struct {
