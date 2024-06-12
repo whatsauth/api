@@ -4,7 +4,6 @@ import (
 	"api/model"
 	"context"
 	"encoding/base64"
-	"io/ioutil"
 	"strconv"
 	"strings"
 
@@ -20,17 +19,15 @@ func SendImageMessage(img ImageMessage, whatsapp *whatsmeow.Client) (resp whatsm
 		server = "g.us"
 	}
 
-	imageData, err := ioutil.ReadFile(img.ImagePath)
+	imageData, err := base64.StdEncoding.DecodeString(img.Base64Image)
 	if err != nil {
 		return resp, err
 	}
 
-	encodedImage := base64.StdEncoding.EncodeToString(imageData)
-
 	var wamsg waProto.Message
 	wamsg.ImageMessage = &waProto.ImageMessage{
 		Mimetype:      proto.String("image/jpeg"), // atau mime type lain sesuai format gambar
-		JpegThumbnail: []byte(encodedImage),
+		JpegThumbnail: imageData,
 		Caption:       proto.String(img.Caption),
 	}
 

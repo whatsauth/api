@@ -6,10 +6,10 @@ import (
 )
 
 type ImageMessage struct {
-	To        string
-	ImagePath string
-	Caption   string
-	IsGroup   bool
+	To          string
+	Base64Image string
+	Caption     string
+	IsGroup     bool
 }
 
 type TextMessage struct {
