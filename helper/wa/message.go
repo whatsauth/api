@@ -14,6 +14,40 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+func SendDocumentMessage(doc DocumentMessage, whatsapp *whatsmeow.Client) (resp whatsmeow.SendResponse, err error) {
+	server := "s.whatsapp.net"
+	if doc.IsGroup {
+		server = "g.us"
+	}
+
+	docData, err := base64.StdEncoding.DecodeString(doc.Base64Doc)
+	if err != nil {
+		return resp, err
+	}
+
+	respupload, err := whatsapp.Upload(context.Background(), docData, whatsmeow.MediaDocument)
+	if err != nil {
+		return resp, err
+	}
+
+	docMsg := &waProto.DocumentMessage{
+		Caption:       proto.String(doc.Caption),
+		Mimetype:      proto.String(http.DetectContentType(docData)),
+		FileName:      &doc.Filename,
+		Url:           &respupload.URL,
+		DirectPath:    &respupload.DirectPath,
+		MediaKey:      respupload.MediaKey,
+		FileEncSha256: respupload.FileEncSHA256,
+		FileSha256:    respupload.FileSHA256,
+		FileLength:    proto.Uint64(uint64(len(docData))),
+	}
+	docMessage := &waProto.Message{
+		DocumentMessage: docMsg,
+	}
+	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(doc.To, server), docMessage)
+	return resp, err
+}
+
 func SendImageMessage(img ImageMessage, whatsapp *whatsmeow.Client) (resp whatsmeow.SendResponse, err error) {
 	server := "s.whatsapp.net"
 	if img.IsGroup {

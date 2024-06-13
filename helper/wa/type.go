@@ -5,6 +5,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+type DocumentMessage struct {
+	To        string
+	Base64Doc string
+	Filename  string
+	Caption   string
+	IsGroup   bool
+}
+
 type ImageMessage struct {
 	To          string `json:"to"`
 	Base64Image string `json:"base64image"`
