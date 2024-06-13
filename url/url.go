@@ -16,6 +16,7 @@ func Web(page *fiber.App) {
 	page.Post("/api/signup", controller.SignUp)
 	page.Post("/api/send/message/text", controller.SendTextMessage)
 	page.Post("/api/send/message/image", controller.SendImageMessage)
+	page.Post("/api/send/message/document", controller.SendDocumentMessage)
 
 	page.Post("/api/whatsauth/request", controller.PostWhatsAuthRequest)
 
