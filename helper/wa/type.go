@@ -6,11 +6,11 @@ import (
 )
 
 type DocumentMessage struct {
-	To        string
-	Base64Doc string
-	Filename  string
-	Caption   string
-	IsGroup   bool
+	To        string `json:"to"`
+	Base64Doc string `json:"base64doc"`
+	Filename  string `json:"filename,omitempty"`
+	Caption   string `json:"caption,omitempty"`
+	IsGroup   bool   `json:"isgroup,omitempty"`
 }
 
 type ImageMessage struct {
