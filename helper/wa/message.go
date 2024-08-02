@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"go.mau.fi/whatsmeow"
-	waProto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/proto/waE2E"
 	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
 )
@@ -30,18 +30,18 @@ func SendDocumentMessage(doc DocumentMessage, whatsapp *whatsmeow.Client) (resp 
 		return resp, err
 	}
 
-	docMsg := &waProto.DocumentMessage{
+	docMsg := &waE2E.DocumentMessage{
 		Caption:       proto.String(doc.Caption),
 		Mimetype:      proto.String(http.DetectContentType(docData)),
 		FileName:      &doc.Filename,
-		Url:           &respupload.URL,
+		URL:           &respupload.URL,
 		DirectPath:    &respupload.DirectPath,
 		MediaKey:      respupload.MediaKey,
-		FileEncSha256: respupload.FileEncSHA256,
-		FileSha256:    respupload.FileSHA256,
+		FileEncSHA256: respupload.FileEncSHA256,
+		FileSHA256:    respupload.FileSHA256,
 		FileLength:    proto.Uint64(uint64(len(docData))),
 	}
-	docMessage := &waProto.Message{
+	docMessage := &waE2E.Message{
 		DocumentMessage: docMsg,
 	}
 	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(doc.To, server), docMessage)
@@ -64,18 +64,18 @@ func SendImageMessage(img ImageMessage, whatsapp *whatsmeow.Client) (resp whatsm
 		return resp, err
 	}
 
-	imgMsg := &waProto.ImageMessage{
+	imgMsg := &waE2E.ImageMessage{
 		Caption:       proto.String(img.Caption),
-		Url:           proto.String(respupload.URL),
+		URL:           proto.String(respupload.URL),
 		DirectPath:    proto.String(respupload.DirectPath),
 		MediaKey:      respupload.MediaKey,
 		Mimetype:      proto.String(http.DetectContentType(imageData)),
-		FileEncSha256: respupload.FileEncSHA256,
-		FileSha256:    respupload.FileSHA256,
+		FileEncSHA256: respupload.FileEncSHA256,
+		FileSHA256:    respupload.FileSHA256,
 		FileLength:    proto.Uint64(uint64(len(imageData))),
 	}
 
-	imgMessage := &waProto.Message{
+	imgMessage := &waE2E.Message{
 		ImageMessage: imgMsg,
 	}
 	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(img.To, server), imgMessage)
@@ -88,7 +88,7 @@ func SendTextMessage(txt TextMessage, whatsapp *whatsmeow.Client) (resp whatsmeo
 		server = "g.us"
 	}
 	//go whatsapp.SendChatPresence(types.NewJID(txt.To, server), types.ChatPresenceComposing, types.ChatPresenceMediaText)
-	var wamsg waProto.Message
+	var wamsg waE2E.Message
 	wamsg.Conversation = proto.String(txt.Messages)
 	resp, err = whatsapp.SendMessage(context.Background(), types.NewJID(txt.To, server), &wamsg)
 	return resp, err
@@ -109,7 +109,7 @@ func GetPhoneNumber(WAIface model.IteungWhatsMeowConfig) (phonenumber string) {
 
 }
 
-func GetMessage(Message *waProto.Message) (message string) {
+func GetMessage(Message *waE2E.Message) (message string) {
 	switch {
 	case Message.ExtendedTextMessage != nil:
 		message = *Message.ExtendedTextMessage.Text
@@ -130,7 +130,7 @@ func GetMessage(Message *waProto.Message) (message string) {
 
 }
 
-func GetLongLat(Message *waProto.Message) (long, lat float64, liveloc bool) {
+func GetLongLat(Message *waE2E.Message) (long, lat float64, liveloc bool) {
 	if Message.ExtendedTextMessage != nil {
 		if Message.ExtendedTextMessage.ContextInfo != nil {
 			if Message.ExtendedTextMessage.ContextInfo.Participant != nil {
@@ -153,7 +153,7 @@ func GetLongLat(Message *waProto.Message) (long, lat float64, liveloc bool) {
 	return
 }
 
-func GetFile(client *whatsmeow.Client, Message *waProto.Message) (filename, filedata string) {
+func GetFile(client *whatsmeow.Client, Message *waE2E.Message) (filename, filedata string) {
 	if extMsg := Message.GetExtendedTextMessage(); extMsg != nil {
 		if extMsg.ContextInfo == nil {
 			return
@@ -191,7 +191,7 @@ func GetFile(client *whatsmeow.Client, Message *waProto.Message) (filename, file
 		filedata = base64.StdEncoding.EncodeToString(payload)
 	} else if img := Message.GetImageMessage(); img != nil {
 		filename = strings.ReplaceAll(*img.Mimetype, "/", ".")
-		filedata = GetBase64Filedata(img.Url, img.GetMediaKey())
+		filedata = GetBase64Filedata(img.URL, img.GetMediaKey())
 		payload, err := client.Download(img)
 		if err != nil {
 			return
@@ -246,6 +246,6 @@ func GetEntryPointDetail(WAIface model.IteungWhatsMeowConfig) (details string) {
 	return
 }
 
-func GetFromLinkDelay(Message *waProto.Message) uint32 {
+func GetFromLinkDelay(Message *waE2E.Message) uint32 {
 	return *Message.ExtendedTextMessage.ContextInfo.EntryPointConversionDelaySeconds
 }
