@@ -9,13 +9,13 @@ import (
 
 	"api/helper/atdb"
 
-	waProto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/proto/waE2E"
 	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/protobuf/proto"
 )
 
-func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *WaClient) {
+func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *WaClient) {
 	if !Info.IsFromMe && (Info.Chat.Server != "broadcast") && (Info.Chat.User != "status") {
 		var WAIface = model.IteungWhatsMeowConfig{
 			Waclient: client.WAClient,
@@ -33,7 +33,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waProto.Message, client *
 		go client.WAClient.MarkRead([]string{Info.ID}, time.Now(), Info.Chat, Info.Sender)
 		result, err := PostStructWithToken[model.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
 		if err != nil {
-			var wamsg waProto.Message
+			var wamsg waE2E.Message
 			wamsg.Conversation = proto.String(err.Error() + " RESULT:" + result.Response)
 			client.WAClient.SendMessage(context.Background(), Info.Chat, &wamsg)
 		}

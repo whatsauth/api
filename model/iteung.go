@@ -2,7 +2,7 @@ package model
 
 import (
 	"go.mau.fi/whatsmeow"
-	waProto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/proto/waE2E"
 	"go.mau.fi/whatsmeow/types"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -53,7 +53,7 @@ type Typo struct {
 
 type IteungWhatsMeowConfig struct {
 	Info     *types.MessageInfo
-	Message  *waProto.Message
+	Message  *waE2E.Message
 	Waclient *whatsmeow.Client
 }
 

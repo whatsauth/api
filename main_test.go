@@ -11,7 +11,7 @@ import (
 	"api/helper/wa"
 
 	"github.com/lib/pq"
-	waProto "go.mau.fi/whatsmeow/binary/proto"
+	"go.mau.fi/whatsmeow/proto/waE2E"
 	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
 )
@@ -37,7 +37,7 @@ func TestDB(t *testing.T) {
 	phonenumber := "6287752000300"
 	waclient, err := wa.CreateClientfromContainer(phonenumber, config.Mongoconn, config.ContainerDB)
 	log.Println(err)
-	var wamsg waProto.Message
+	var wamsg waE2E.Message
 	wamsg.Conversation = proto.String("asd sa dsa dsad sa ")
 	log.Println("Panggilan send message")
 	waclient.WAClient.SendMessage(context.Background(), types.NewJID("6281312000300", "s.whatsapp.net"), &wamsg)
