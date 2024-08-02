@@ -3,6 +3,8 @@ package controller
 import (
 	"api/config"
 	"api/model"
+	"regexp"
+	"strings"
 
 	"api/helper/wa"
 
@@ -175,6 +177,18 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 		if IsNewClient {
 			config.Client = append(config.Client, client)
 		}
+		//memastikan inputan nomor sesuai dengan format
+		txt.To = formatPhoneNumber(txt.To)
+		//check untuk wa personal apakah nomornya sudah ada wa nya atau belum
+		if !txt.IsGroup {
+			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
+			if err != nil {
+				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Nomor tidak terdaftar di whatsapp : " + err.Error()})
+			}
+			if !onwa[0].IsIn {
+				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Nomor tidak terdaftar di whatsapp"})
+			}
+		}
 
 		var targetjid types.JID
 		targetjid.User = txt.To
@@ -198,4 +212,16 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(resp)
+}
+
+func formatPhoneNumber(phoneNumber string) string {
+	// Hilangkan semua karakter selain angka (0-9)
+	re := regexp.MustCompile("[^0-9]")
+	phoneNumber = re.ReplaceAllString(phoneNumber, "")
+
+	// Ganti awalan 0 dengan 62
+	if strings.HasPrefix(phoneNumber, "0") {
+		return "62" + phoneNumber[1:]
+	}
+	return phoneNumber
 }

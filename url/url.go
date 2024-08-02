@@ -15,6 +15,7 @@ func Web(page *fiber.App) {
 
 	page.Post("/api/signup", controller.SignUp)
 	page.Post("/api/send/message/text", controller.SendTextMessage)
+	page.Post("/api/v2/send/message/text", controller.SendTextMessageV2) // kirim text message v2
 	page.Post("/api/send/message/image", controller.SendImageMessage)
 	page.Post("/api/send/message/document", controller.SendDocumentMessage)
 
