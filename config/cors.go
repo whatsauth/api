@@ -15,6 +15,7 @@ var origins = []string{
 	"https://ux.ulbi.ac.id",
 	"https://www.do.my.id",
 	"https://do.my.id",
+	"https://pd.my.id",
 }
 
 var Cors = cors.Config{
