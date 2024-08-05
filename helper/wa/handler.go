@@ -28,14 +28,21 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 		Pesan := Whatsmeow2Struct(WAIface)
 		//kirim ke webhook
 		filter := bson.M{"phonenumber": client.PhoneNumber}
-		userdt, _ := atdb.GetOneLatestDoc[User](client.Mongoconn, "user", filter)
-		//go client.WAClient.SendChatPresence(Info.Chat, types.ChatPresenceComposing, types.ChatPresenceMediaText)
-		go client.WAClient.MarkRead([]string{Info.ID}, time.Now(), Info.Chat, Info.Sender)
-		result, err := PostStructWithToken[model.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
+		userdt, err := atdb.GetOneLatestDoc[User](client.Mongoconn, "user", filter)
 		if err != nil {
 			var wamsg waE2E.Message
-			wamsg.Conversation = proto.String(err.Error() + " RESULT:" + result.Response)
+			wamsg.Conversation = proto.String(err.Error())
 			client.WAClient.SendMessage(context.Background(), Info.Chat, &wamsg)
+		}
+		if userdt.WebHook.URL != "" {
+			//go client.WAClient.SendChatPresence(Info.Chat, types.ChatPresenceComposing, types.ChatPresenceMediaText)
+			go client.WAClient.MarkRead([]string{Info.ID}, time.Now(), Info.Chat, Info.Sender)
+			result, err := PostStructWithToken[model.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
+			if err != nil {
+				var wamsg waE2E.Message
+				wamsg.Conversation = proto.String(err.Error() + " RESULT:" + result.Response)
+				client.WAClient.SendMessage(context.Background(), Info.Chat, &wamsg)
+			}
 		}
 	}
 }
