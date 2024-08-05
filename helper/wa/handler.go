@@ -30,9 +30,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 		filter := bson.M{"phonenumber": client.PhoneNumber}
 		userdt, err := atdb.GetOneLatestDoc[User](client.Mongoconn, "user", filter)
 		if err != nil {
-			var wamsg waE2E.Message
-			wamsg.Conversation = proto.String(err.Error())
-			client.WAClient.SendMessage(context.Background(), Info.Chat, &wamsg)
+			return // jika webhook tidak terdaftar maka selesai
 		}
 		if userdt.WebHook.URL != "" {
 			//go client.WAClient.SendChatPresence(Info.Chat, types.ChatPresenceComposing, types.ChatPresenceMediaText)

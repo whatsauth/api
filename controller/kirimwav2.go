@@ -158,11 +158,11 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": err.Error()})
 	}
-
-	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
-	if err != nil {
-		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "WebHook Belum di daftarkan : " + err.Error()})
-	}
+	//tidak perlu melakukan pengecekan webhook sudah terdaftar atau belum
+	/* 	_, err = atdb.GetOneLatestDoc[wa.User](config.Mongoconn, "user", bson.M{"phonenumber": payload.Id})
+	   	if err != nil {
+	   		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "WebHook Belum di daftarkan : " + err.Error()})
+	   	} */
 
 	var txt wa.TextMessage
 	err = c.BodyParser(&txt)
