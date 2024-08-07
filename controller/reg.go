@@ -84,6 +84,44 @@ func Device(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
+func CheckNumbersInWhatsApp(c *fiber.Ctx) error {
+	var h model.Header
+
+	err := c.ReqHeaderParser(&h)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	payload, err := watoken.Decode(config.PublicKey, h.Token)
+	if err != nil {
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	var phlist wa.PhoneList
+	err = c.BodyParser(&phlist)
+	if err != nil {
+		return err
+	}
+
+	client, IsNewClient, err := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
+	if err != nil {
+		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Waclient belum di start : " + err.Error()})
+	}
+	if IsNewClient {
+		config.Client = append(config.Client, client)
+	}
+	//memastikan inputan nomor sesuai dengan format
+	//txt.To = formatPhoneNumber(txt.To)
+	//check untuk wa personal apakah nomornya sudah ada wa nya atau belum
+
+	onwa, err := client.WAClient.IsOnWhatsApp(phlist.PhoneNumbers)
+	if err != nil {
+		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "IsOnWhatsApp: " + err.Error()})
+	}
+
+	return c.JSON(onwa)
+}
+
 func SignUp(c *fiber.Ctx) error {
 	var h model.Header
 	var useraccount wa.User

@@ -10,8 +10,9 @@ import (
 )
 
 func Web(page *fiber.App) {
-	page.Get("/api/start/device/+", controller.StartDevice)
+	//page.Get("/api/start/device/+", controller.StartDevice)
 	page.Get("/api/device/+", controller.Device)
+	page.Post("/api/numbers/isonwa", controller.CheckNumbersInWhatsApp)
 
 	page.Post("/api/signup", controller.SignUp)
 	page.Post("/api/send/message/text", controller.SendTextMessage)

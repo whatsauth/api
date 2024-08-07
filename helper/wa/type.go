@@ -20,6 +20,10 @@ type ImageMessage struct {
 	IsGroup     bool   `json:"isgroup,omitempty"`
 }
 
+type PhoneList struct {
+	PhoneNumbers []string `json:"phonenumbers"`
+}
+
 type TextMessage struct {
 	To       string `json:"to"`
 	IsGroup  bool   `json:"isgroup,omitempty"`
