@@ -113,13 +113,14 @@ func CheckNumbersInWhatsApp(c *fiber.Ctx) error {
 	//memastikan inputan nomor sesuai dengan format
 	//txt.To = formatPhoneNumber(txt.To)
 	//check untuk wa personal apakah nomornya sudah ada wa nya atau belum
+	var walist model.WaList
 
-	onwa, err := client.WAClient.IsOnWhatsApp(phlist.PhoneNumbers)
+	walist.PhoneNumbers, err = client.WAClient.IsOnWhatsApp(phlist.PhoneNumbers)
 	if err != nil {
 		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "IsOnWhatsApp: " + err.Error()})
 	}
 
-	return c.JSON(onwa)
+	return c.JSON(walist)
 }
 
 func SignUp(c *fiber.Ctx) error {
