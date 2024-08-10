@@ -172,7 +172,7 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 	if txt.Messages != "" {
 		client, IsNewClient, err := wa.GetWaClient(payload.Id, config.Client, config.Mongoconn, config.ContainerDB)
 		if err != nil {
-			return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Waclient belum di start : " + err.Error()})
+			return c.Status(fiber.StatusConflict).JSON(fiber.Map{"error": "Waclient belum di start : " + err.Error()})
 		}
 		if IsNewClient {
 			config.Client = append(config.Client, client)
@@ -183,10 +183,10 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 		if !txt.IsGroup {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
 			if err != nil {
-				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Nomor tidak terdaftar di whatsapp : " + err.Error()})
+				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Linked Device belum diaktifkan : " + err.Error()})
 			}
 			if !onwa[0].IsIn {
-				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Nomor tidak terdaftar di whatsapp"})
+				return c.Status(fiber.StatusNotImplemented).JSON(fiber.Map{"error": "Nomor tidak terdaftar di whatsapp"})
 			}
 		}
 
@@ -199,13 +199,13 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 		}
 		err = client.WAClient.SendChatPresence(targetjid, types.ChatPresenceComposing, types.ChatPresenceMediaText)
 		if err != nil {
-			return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Read wa tidak jalan : " + err.Error()})
+			return c.Status(fiber.StatusExpectationFailed).JSON(fiber.Map{"error": "Read wa tidak jalan : " + err.Error()})
 			//return err
 		}
 
 		resp, err = wa.SendTextMessage(txt, client.WAClient)
 		if err != nil {
-			return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Kirim pesan text wa ke websocket wa web tidak berhasil : " + err.Error()})
+			return c.Status(fiber.StatusFailedDependency).JSON(fiber.Map{"error": "Kirim pesan text wa ke websocket wa web tidak berhasil : " + err.Error()})
 			//return err
 		}
 		//resp.Timestamp.IsZero()
