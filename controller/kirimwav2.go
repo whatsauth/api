@@ -185,6 +185,9 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 			if err != nil {
 				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Linked Device belum diaktifkan : " + err.Error()})
 			}
+			if len(onwa) == 0 { //jika tidak terdeteksi sama sekali. nomor terlalu panjang
+				return c.Status(fiber.StatusLengthRequired).JSON(fiber.Map{"error": "Nomor terlalu panjang"})
+			}
 			if !onwa[0].IsIn {
 				return c.Status(fiber.StatusNotImplemented).JSON(fiber.Map{"error": "Nomor tidak terdaftar di whatsapp"})
 			}
