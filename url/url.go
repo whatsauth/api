@@ -3,7 +3,6 @@ package url
 import (
 	"api/controller"
 	"api/helper/chatroot"
-	"api/helper/wrtc"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
@@ -25,5 +24,5 @@ func Web(page *fiber.App) {
 	//websocket
 	page.Get("/ws/whatsauth/public", websocket.New(controller.WsWhatsAuth)) //qr auth
 	page.Get("/ws/chatgpl/public", websocket.New(chatroot.RunSocket))       //chatGPL public
-	page.Get("/ws/webrtc/public", websocket.New(wrtc.RunWebRTCSocket))      // New route for WebRTC signaling
+	//page.Get("/ws/webrtc/public", websocket.New(wrtc.RunWebRTCSocket))      // New route for WebRTC signaling
 }
