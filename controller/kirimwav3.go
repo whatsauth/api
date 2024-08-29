@@ -163,7 +163,9 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-
+	//memastikan inputan nomor sesuai dengan format
+	txt.To = formatPhoneNumber(txt.To)
+	//ambil sender langganan jika tidak ada ambil urutan official number
 	sender := log.GetSenderNumber(txt.To, config.Mongoconn)
 	if sender == "" {
 		sender = log.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
@@ -176,8 +178,6 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 		if IsNewClient {
 			config.Client = append(config.Client, client)
 		}
-		//memastikan inputan nomor sesuai dengan format
-		txt.To = formatPhoneNumber(txt.To)
 		//check untuk wa personal apakah nomornya sudah ada wa nya atau belum
 		if !txt.IsGroup {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
