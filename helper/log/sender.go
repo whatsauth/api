@@ -34,6 +34,6 @@ func GetSenderNumber(receiver string, db *mongo.Database) string {
 func GetOfficialSenderNumber(user string, db *mongo.Database) string {
 	doc, _ := atdb.GetOneLowestDoc[LogSenderCounterUsage](db, "senderofficial", primitive.M{"users": user}, "counter")
 	doc.Counter += 1
-	atdb.ReplaceOneDoc(db, "counter", primitive.M{"_id": doc.ID}, doc)
+	atdb.ReplaceOneDoc(db, "senderofficial", primitive.M{"_id": doc.ID}, doc)
 	return doc.Sender
 }
