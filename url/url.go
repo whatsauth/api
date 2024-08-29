@@ -15,7 +15,8 @@ func Web(page *fiber.App) {
 
 	page.Post("/api/signup", controller.SignUp)
 	page.Post("/api/send/message/text", controller.SendTextMessage)
-	page.Post("/api/v2/send/message/text", controller.SendTextMessageV2) // kirim text message v2
+	page.Post("/api/v2/send/message/text", controller.SendTextMessageV2)                  // kirim text message v2
+	page.Post("/api/v3/official/send/message/text", controller.SendTextMessageV3FromUser) // kirim text message v3 dengan token adalah user official
 	page.Post("/api/send/message/image", controller.SendImageMessage)
 	page.Post("/api/send/message/document", controller.SendDocumentMessage)
 

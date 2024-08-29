@@ -22,3 +22,18 @@ func LogSenderReceiverUpdate(sender, receiver string, db *mongo.Database) {
 		atdb.InsertOneDoc(db, logcollection, newdoc)
 	}
 }
+
+func GetSenderNumber(receiver string, db *mongo.Database) string {
+	doc, err := atdb.GetOneDoc[LogSenderReceiver](db, "logsent", primitive.M{"receiver": receiver})
+	if err == mongo.ErrNoDocuments {
+		return ""
+	}
+	return doc.Sender
+}
+
+func GetOfficialSenderNumber(user string, db *mongo.Database) string {
+	doc, _ := atdb.GetOneLowestDoc[LogSenderCounterUsage](db, "senderofficial", primitive.M{"users": user}, "counter")
+	doc.Counter += 1
+	atdb.ReplaceOneDoc(db, "counter", primitive.M{"_id": doc.ID}, doc)
+	return doc.Sender
+}

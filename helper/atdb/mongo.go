@@ -106,6 +106,15 @@ func GetOneLatestDoc[T any](db *mongo.Database, collection string, filter bson.M
 	return
 }
 
+func GetOneLowestDoc[T any](db *mongo.Database, collection string, filter bson.M, sortField string) (doc T, err error) {
+	opts := options.FindOne().SetSort(bson.M{sortField: 1}) // Sort by the provided field in ascending order
+	err = db.Collection(collection).FindOne(context.TODO(), filter, opts).Decode(&doc)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (insertedID interface{}, err error) {
 	insertResult, err := db.Collection(collection).InsertOne(context.TODO(), doc)
 	if err != nil {
