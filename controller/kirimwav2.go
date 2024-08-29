@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 
+	"api/helper/log"
 	"api/helper/wa"
 
 	"api/helper/atdb"
@@ -205,6 +206,8 @@ func SendTextMessageV2(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusExpectationFailed).JSON(fiber.Map{"error": "Read wa tidak jalan : " + err.Error()})
 			//return err
 		}
+		// simpen log siapa yang kirim siapa penerima nya
+		go log.LogSenderReceiverUpdate(payload.Id, txt.To, config.Mongoconn)
 
 		resp, err = wa.SendTextMessage(txt, client.WAClient)
 		if err != nil {
