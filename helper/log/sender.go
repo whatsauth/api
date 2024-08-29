@@ -10,8 +10,8 @@ import (
 func LogSenderReceiverUpdate(sender, receiver string, db *mongo.Database) {
 	const logcollection = "logsent"
 	filter := primitive.M{
-		"sender":   "",
-		"receiver": "",
+		"sender":   sender,
+		"receiver": receiver,
 	}
 	_, err := atdb.GetOneDoc[LogSenderReceiver](db, logcollection, filter)
 	if err == mongo.ErrNoDocuments {
