@@ -14,8 +14,10 @@ func Web(page *fiber.App) {
 	page.Post("/api/numbers/isonwa", controller.CheckNumbersInWhatsApp)
 
 	page.Post("/api/signup", controller.SignUp)
-	//page.Post("/api/send/message/text", controller.SendTextMessage)
+
 	//violation error v1 dimatikan dahulu karena terlalu banyak
+	//page.Post("/api/send/message/text", controller.SendTextMessage)
+
 	page.Post("/api/v2/send/message/text", controller.SendTextMessageV2)                  // kirim text message v2
 	page.Post("/api/v3/official/send/message/text", controller.SendTextMessageV3FromUser) // kirim text message v3 dengan token adalah user official
 	page.Post("/api/send/message/image", controller.SendImageMessage)
