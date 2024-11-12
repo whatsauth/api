@@ -166,10 +166,12 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 	//memastikan inputan nomor sesuai dengan format
 	txt.To = formatPhoneNumber(txt.To)
 	//ambil sender langganan jika tidak ada ambil urutan official number
-	sender := log.GetSenderNumber(txt.To, config.Mongoconn)
-	if sender == "" {
-		sender = log.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
-	}
+	// sender := log.GetSenderNumber(txt.To, config.Mongoconn)
+	// if sender == "" {
+	// 	sender = log.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
+	// }
+	//kalo reset device nya ganti maka langsung aja acak
+	sender := log.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
 	if txt.Messages != "" {
 		client, IsNewClient, err := wa.GetWaClient(sender, config.Client, config.Mongoconn, config.ContainerDB)
 		if err != nil {
