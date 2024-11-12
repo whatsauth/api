@@ -182,7 +182,7 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 		if !txt.IsGroup {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
 			if err != nil {
-				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "Linked Device belum diaktifkan : " + err.Error()})
+				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "nomor: " + sender + " linked Device belum diaktifkan : " + err.Error()})
 			}
 			if len(onwa) == 0 { //jika tidak terdeteksi sama sekali. nomor terlalu panjang
 				return c.Status(fiber.StatusLengthRequired).JSON(fiber.Map{"error": "Nomor terlalu panjang"})
