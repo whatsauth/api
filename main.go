@@ -28,12 +28,16 @@ func main() {
 	   	config.MapClient.StoreAllClient(clients) */
 
 	var err error
+	log.Println("Melakukan koneksi ke semua client yang sudah terdaftar di database")
 	config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 	if err != nil {
+		log.Println("kesalahan ketika melakukan koneksi wa dari database")
 		log.Panic(err)
 	}
 
+	log.Println("Menjalankan go routine untuk login qr")
 	go ws.RunHub()
+	log.Println("Menjalankan go routine untuk chatgpl")
 	go chatroot.RunHub()
 
 	site := fiber.New(config.Iteung)
@@ -44,5 +48,6 @@ func main() {
 	}))
 
 	url.Web(site)
+	log.Println("Menjalankan service fiber http pada: ", config.Port)
 	log.Fatal(site.Listen(config.Port))
 }
