@@ -3,9 +3,8 @@ package controller
 import (
 	"api/config"
 	"api/model"
-	slog "log"
+	"log"
 
-	"api/helper/log"
 	"api/helper/wa"
 
 	"api/helper/atdb"
@@ -166,13 +165,14 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 	}
 	//memastikan inputan nomor sesuai dengan format
 	txt.To = formatPhoneNumber(txt.To)
-	//ambil sender langganan jika tidak ada ambil urutan official number
+	//ambil sender langganan dari log histori pengiriman sender official number
 	// sender := log.GetSenderNumber(txt.To, config.Mongoconn)
-	// if sender == "" {
-	// 	sender = log.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
-	// }
+	// ambil sender dari collection senderofficial number
+	sender := wa.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
+	if sender == "" { //jika masih tidak ada maka user token tidak ada akses ke nomor official
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"error": "Token anda tidak memiliki akses ke nomor official"})
+	}
 	//kalo reset device nya ganti maka langsung aja acak
-	sender := log.GetOfficialSenderNumber(userofficial.Id, config.Mongoconn)
 	if txt.Messages != "" {
 		client, IsNewClient, err := wa.GetWaClient(sender, config.Client, config.Mongoconn, config.ContainerDB)
 		if err != nil {
@@ -186,8 +186,8 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
 			if err != nil {
 				//log error
-				slog.Println(userofficial)
-				slog.Println(sender)
+				log.Println(userofficial)
+				log.Println(sender)
 				document := bson.D{
 					{Key: "sender", Value: sender},
 					{Key: "user", Value: userofficial.Id},
@@ -217,7 +217,7 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 			//return err
 		}
 		// simpen log siapa yang kirim siapa penerima nya
-		go log.LogSenderReceiverUpdate(sender, txt.To, config.Mongoconn)
+		go wa.LogSenderReceiverUpdate(sender, txt.To, config.Mongoconn)
 
 		resp, err = wa.SendTextMessage(txt, client.WAClient)
 		if err != nil {

@@ -2,6 +2,7 @@ package wa
 
 import (
 	"go.mau.fi/whatsmeow"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -59,4 +60,17 @@ type User struct {
 	WebHook     WebHook `bson:"webhook" json:"webhook"`
 	Mongostring string  `bson:"mongostring" json:"mongostring"`
 	Token       string  `bson:"token" json:"token"`
+}
+
+type LogSenderReceiver struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty"`
+	Sender   string             `bson:"sender"`
+	Receiver string             `bson:"receiver"`
+}
+
+type LogSenderCounterUsage struct {
+	ID      primitive.ObjectID `bson:"_id,omitempty"`
+	Sender  string             `bson:"sender"`
+	Counter uint64             `bson:"counter,omitempty"`
+	Users   []string           `bson:"users,omitempty"`
 }
