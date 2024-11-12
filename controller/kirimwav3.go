@@ -3,6 +3,7 @@ package controller
 import (
 	"api/config"
 	"api/model"
+	slog "log"
 
 	"api/helper/log"
 	"api/helper/wa"
@@ -184,6 +185,7 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 		if !txt.IsGroup {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
 			if err != nil {
+				slog.Println(sender)
 				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "nomor: " + sender + " linked Device belum diaktifkan : " + err.Error()})
 			}
 			if len(onwa) == 0 { //jika tidak terdeteksi sama sekali. nomor terlalu panjang
