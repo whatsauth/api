@@ -24,9 +24,9 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 			Message:  Message,
 		}
 		//simpan log pesan untuk debug dari telpon dev
-		if Info.Chat.User == "6281312000300" {
+		if Info.Sender.User == "6281312000300" {
 			WAIface.CreatedAt = time.Now()
-			go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
+			go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface)
 			log.Println(WAIface.Message)
 			log.Println(WAIface.Info)
 		}
