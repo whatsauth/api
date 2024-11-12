@@ -185,8 +185,15 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 		if !txt.IsGroup {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
 			if err != nil {
+				//log error
 				slog.Println(userofficial)
 				slog.Println(sender)
+				document := bson.D{
+					{Key: "sender", Value: sender},
+					{Key: "user", Value: userofficial.Id},
+					{Key: "msg", Value: txt},
+				}
+				go atdb.InsertOneDoc(client.Mongoconn, "logerror", document)
 				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "nomor: " + sender + " linked Device belum diaktifkan : " + err.Error()})
 			}
 			if len(onwa) == 0 { //jika tidak terdeteksi sama sekali. nomor terlalu panjang
