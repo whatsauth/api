@@ -1,6 +1,8 @@
 package model
 
 import (
+	"time"
+
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/proto/waE2E"
 	"go.mau.fi/whatsmeow/types"
@@ -52,9 +54,10 @@ type Typo struct {
 }
 
 type IteungWhatsMeowConfig struct {
-	Info     *types.MessageInfo
-	Message  *waE2E.Message
-	Waclient *whatsmeow.Client
+	Info      *types.MessageInfo `json:"info,omitempty" bson:"info,omitempty"`
+	Message   *waE2E.Message     `json:"message,omitempty" bson:"message,omitempty"`
+	Waclient  *whatsmeow.Client  `json:"waclient,omitempty" bson:"waclient,omitempty"`
+	CreatedAt time.Time          `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
 }
 
 type IteungDBConfig struct {

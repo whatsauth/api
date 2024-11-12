@@ -3,6 +3,7 @@ package wa
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"api/model"
@@ -22,7 +23,13 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 			Info:     Info,
 			Message:  Message,
 		}
-		//simpan log pesan Message.ExtendedTextMessage.ContextInfo
+		//simpan log pesan untuk debug dari telpon dev
+		if Info.Chat.User == "6281312000300" {
+			WAIface.CreatedAt = time.Now()
+			go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
+			log.Println(WAIface.Message)
+			log.Println(WAIface.Info)
+		}
 		// go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
 		//membuat struct untuk iteung v2
 		Pesan := Whatsmeow2Struct(WAIface)

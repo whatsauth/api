@@ -185,6 +185,7 @@ func SendTextMessageV3FromUser(c *fiber.Ctx) error {
 		if !txt.IsGroup {
 			onwa, err := client.WAClient.IsOnWhatsApp([]string{"+" + txt.To})
 			if err != nil {
+				slog.Println(userofficial)
 				slog.Println(sender)
 				return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"error": "nomor: " + sender + " linked Device belum diaktifkan : " + err.Error()})
 			}
