@@ -23,7 +23,12 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 			Message:  Message,
 		}
 		//simpan log pesan untuk debug dari telpon dev
-		// go atdb.InsertOneDoc(client.Mongoconn, "inbox", WAIface.Message)
+		document := bson.D{
+			{Key: "Info", Value: WAIface.Info},
+			{Key: "Message", Value: WAIface.Message},
+			{Key: "createdAt", Value: time.Now()},
+		}
+		go atdb.InsertOneDoc(client.Mongoconn, "inbox", document)
 		//membuat struct untuk iteung v2
 		Pesan := Whatsmeow2Struct(WAIface)
 		//kirim ke webhook
