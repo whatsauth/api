@@ -247,5 +247,10 @@ func GetEntryPointDetail(WAIface model.IteungWhatsMeowConfig) (details string) {
 }
 
 func GetFromLinkDelay(Message *waE2E.Message) uint32 {
-	return *Message.ExtendedTextMessage.ContextInfo.EntryPointConversionDelaySeconds
+	if Message != nil && Message.ExtendedTextMessage != nil &&
+		Message.ExtendedTextMessage.ContextInfo != nil &&
+		Message.ExtendedTextMessage.ContextInfo.EntryPointConversionDelaySeconds != nil {
+		return *Message.ExtendedTextMessage.ContextInfo.EntryPointConversionDelaySeconds
+	}
+	return 0 // Nilai default jika EntryPointConversionDelaySeconds tidak ada atau nil
 }
