@@ -24,6 +24,7 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 		}
 		//simpan log pesan untuk debug dari telpon dev
 		document := bson.D{
+			{Key: "Info", Value: Info},
 			{Key: "Message", Value: Message},
 			{Key: "createdAt", Value: time.Now()},
 		}
