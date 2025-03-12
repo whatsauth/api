@@ -52,8 +52,8 @@ type WaClient struct {
 type WebHook struct {
 	URL           string `bson:"url" json:"url"`
 	Secret        string `bson:"secret" json:"secret"`
-	ReadStatusOff bool   `bson:"readstatusoff" json:"readstatusoff"`
-	SendTyping    bool   `bson:"sendtyping" json:"sendtyping"`
+	ReadStatusOff bool   `bson:"readstatusoff,omitempty" json:"readstatusoff,omitempty"`
+	SendTyping    bool   `bson:"sendtyping,omitempty" json:"sendtyping,omitempty"`
 }
 
 type User struct {
