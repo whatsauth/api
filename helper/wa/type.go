@@ -55,11 +55,13 @@ type WebHook struct {
 }
 
 type User struct {
-	PhoneNumber string  `bson:"phonenumber" json:"phonenumber"`
-	DeviceID    uint16  `bson:"deviceid" json:"deviceid"`
-	WebHook     WebHook `bson:"webhook" json:"webhook"`
-	Mongostring string  `bson:"mongostring" json:"mongostring"`
-	Token       string  `bson:"token" json:"token"`
+	PhoneNumber   string  `bson:"phonenumber" json:"phonenumber"`
+	DeviceID      uint16  `bson:"deviceid" json:"deviceid"`
+	WebHook       WebHook `bson:"webhook" json:"webhook"`
+	Mongostring   string  `bson:"mongostring" json:"mongostring"`
+	Token         string  `bson:"token" json:"token"`
+	ReadStatusOff bool    `bson:"readstatusoff" json:"readstatusoff"`
+	SendTyping    bool    `bson:"sendtyping" json:"sendtyping"`
 }
 
 type LogSenderReceiver struct {
