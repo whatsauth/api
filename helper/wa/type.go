@@ -50,18 +50,18 @@ type WaClient struct {
 }
 
 type WebHook struct {
-	URL    string `bson:"url" json:"url"`
-	Secret string `bson:"secret" json:"secret"`
+	URL           string `bson:"url" json:"url"`
+	Secret        string `bson:"secret" json:"secret"`
+	ReadStatusOff bool   `bson:"readstatusoff" json:"readstatusoff"`
+	SendTyping    bool   `bson:"sendtyping" json:"sendtyping"`
 }
 
 type User struct {
-	PhoneNumber   string  `bson:"phonenumber" json:"phonenumber"`
-	DeviceID      uint16  `bson:"deviceid" json:"deviceid"`
-	WebHook       WebHook `bson:"webhook" json:"webhook"`
-	Mongostring   string  `bson:"mongostring" json:"mongostring"`
-	Token         string  `bson:"token" json:"token"`
-	ReadStatusOff bool    `bson:"readstatusoff" json:"readstatusoff"`
-	SendTyping    bool    `bson:"sendtyping" json:"sendtyping"`
+	PhoneNumber string  `bson:"phonenumber" json:"phonenumber"`
+	DeviceID    uint16  `bson:"deviceid" json:"deviceid"`
+	WebHook     WebHook `bson:"webhook" json:"webhook"`
+	Mongostring string  `bson:"mongostring" json:"mongostring"`
+	Token       string  `bson:"token" json:"token"`
 }
 
 type LogSenderReceiver struct {

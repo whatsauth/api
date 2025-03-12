@@ -38,10 +38,10 @@ func HandlingMessage(Info *types.MessageInfo, Message *waE2E.Message, client *Wa
 			return // jika webhook tidak terdaftar maka selesai
 		}
 		if userdt.WebHook.URL != "" {
-			if userdt.SendTyping {
+			if userdt.WebHook.SendTyping {
 				go client.WAClient.SendChatPresence(Info.Chat, types.ChatPresenceComposing, types.ChatPresenceMediaText)
 			}
-			if !userdt.ReadStatusOff {
+			if !userdt.WebHook.ReadStatusOff {
 				go client.WAClient.MarkRead([]string{Info.ID}, time.Now(), Info.Chat, Info.Sender)
 			}
 			result, err := PostStructWithToken[model.Response]("secret", userdt.WebHook.Secret, Pesan, userdt.WebHook.URL)
