@@ -20,6 +20,7 @@ import (
 )
 
 func main() {
+	log.Println("Aplikasi sedang berjalan...")
 	/* 	clients, err := wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 	   	if err != nil {
 	   		log.Panic(err)
