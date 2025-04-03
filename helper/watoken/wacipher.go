@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"math/rand"
 	"strings"
-	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -52,7 +51,6 @@ func RandomLowerCaseString(length int) string {
 }
 
 func RandomString(length int) string {
-	rand.Seed(time.Now().UnixNano())
 	chars := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 	var b strings.Builder
 	for i := 0; i < length; i++ {
