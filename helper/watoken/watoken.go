@@ -2,7 +2,7 @@ package watoken
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"time"
 
 	"aidanwoods.dev/go-paseto"
@@ -45,7 +45,7 @@ func EncodeWithStruct[T any](id, alias string, data *T, privateKey string) (stri
 
 	err := token.Set("data", data)
 	if err != nil {
-		fmt.Println("EncodeWithStruct Set : ", err)
+		log.Println("EncodeWithStruct Set : ", err)
 		return "", err
 	}
 
@@ -69,7 +69,7 @@ func EncodeWithStructDuration[T any](id, alias string, data *T, privateKey strin
 
 	err := token.Set("data", data)
 	if err != nil {
-		fmt.Println("EncodeWithStruct Set : ", err)
+		log.Println("EncodeWithStruct Set : ", err)
 		return "", err
 	}
 
@@ -119,14 +119,14 @@ func Decode(publicKey string, tokenstring string) (payload Payload[any], err err
 	var pubKey paseto.V4AsymmetricPublicKey
 	pubKey, err = paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
 	if err != nil {
-		fmt.Println("Decode ParseV4Public : ", err)
+		log.Println("Decode ParseV4Public : ", err)
 		return
 	}
 
 	parser := paseto.NewParser()                                // only used because this example token has expired, use NewParser() (which checks expiry by default)
 	token, err = parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
 	if err != nil {
-		fmt.Println("Decode ParseV4Public : ", err)
+		log.Println("Decode ParseV4Public : ", err)
 		return
 	}
 
@@ -136,14 +136,14 @@ func Decode(publicKey string, tokenstring string) (payload Payload[any], err err
 func DecodeWithStruct[T any](publicKey string, tokenstring string) (payload Payload[T], err error) {
 	pubKey, err := paseto.NewV4AsymmetricPublicKeyFromHex(publicKey) // this wil fail if given key in an invalid format
 	if err != nil {
-		fmt.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
+		log.Println("Decode NewV4AsymmetricPublicKeyFromHex : ", err)
 		return
 	}
 
 	parser := paseto.NewParser()                                 // only used because this example token has expired, use NewParser() (which checks expiry by default)
 	token, err := parser.ParseV4Public(pubKey, tokenstring, nil) // this will fail if parsing failes, cryptographic checks fail, or validation rules fail
 	if err != nil {
-		fmt.Println("Decode ParseV4Public : ", err)
+		log.Println("Decode ParseV4Public : ", err)
 		return
 	}
 
@@ -154,7 +154,7 @@ func DecodeWithStruct[T any](publicKey string, tokenstring string) (payload Payl
 func DecodeGetId(publicKey string, tokenstring string) string {
 	payload, err := Decode(publicKey, tokenstring)
 	if err != nil {
-		fmt.Println("Decode DecodeGetId : ", err)
+		log.Println("Decode DecodeGetId : ", err)
 	}
 	return payload.Id
 }

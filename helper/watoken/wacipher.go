@@ -34,7 +34,6 @@ func GetAppSubDomain(wuid string) (subdomain string) {
 }
 
 func RandomLowerCaseStringwithSpecialCharacter(length int) string {
-	rand.Seed(time.Now().UnixNano())
 	chars := []rune("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-[]{}<>/?|=,.~`")
 	var b strings.Builder
 	for i := 0; i < length; i++ {
@@ -44,7 +43,6 @@ func RandomLowerCaseStringwithSpecialCharacter(length int) string {
 }
 
 func RandomLowerCaseString(length int) string {
-	rand.Seed(time.Now().UnixNano())
 	chars := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
 	var b strings.Builder
 	for i := 0; i < length; i++ {

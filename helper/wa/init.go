@@ -3,7 +3,7 @@ package wa
 import (
 	"context"
 	"errors"
-	"fmt"
+	"log"
 
 	"api/helper/atdb"
 
@@ -99,7 +99,9 @@ func CreateClientfromContainer(phonenumber string, mongoconn *mongo.Database, co
 
 func GetDeviceIDFromContainer(phonenumber string, container *sqlstore.Container) (deviceid uint16, err error) {
 	deviceStores, err := container.GetAllDevices()
-	fmt.Println(err)
+	if err != nil {
+		log.Println("GetDeviceIDFromContainer,container.GetAllDevices(): " + err.Error())
+	}
 	for _, dv := range deviceStores {
 		if dv.ID.User == phonenumber {
 			deviceid = dv.ID.Device
@@ -110,7 +112,9 @@ func GetDeviceIDFromContainer(phonenumber string, container *sqlstore.Container)
 
 func GetDeviceStoreFromContainer(phonenumber string, container *sqlstore.Container) (device *store.Device, err error) {
 	deviceStores, err := container.GetAllDevices()
-	fmt.Println(err)
+	if err != nil {
+		log.Println("GetDeviceStoreFromContainer,container.GetAllDevices():" + err.Error())
+	}
 	for _, dv := range deviceStores {
 		if dv.ID.User == phonenumber {
 			device = dv

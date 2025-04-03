@@ -2,7 +2,7 @@ package wa
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"api/model"
@@ -70,7 +70,7 @@ func Whatsmeow2Struct(WAIface model.IteungWhatsMeowConfig) (im model.IteungMessa
 	if WAIface.Info.Chat.Server == "g.us" {
 		groupInfo, err := WAIface.Waclient.GetGroupInfo(WAIface.Info.Chat)
 		if err != nil {
-			fmt.Println("cek err : ", err)
+			log.Println("Whatsmeow2Struct,WAIface.Waclient.GetGroupInfo : ", err)
 		}
 		if groupInfo != nil {
 			im.Group = groupInfo.GroupName.Name + "@" + WAIface.Info.Chat.User

@@ -13,8 +13,8 @@ func NewMapClient(size ...int) MapClient {
 	if len(size) > 0 {
 		sizeHint = size[0]
 	}
-
-	syncer := xsync.NewMapOfPresized[string, *WaClient](sizeHint)
+	syncer := xsync.NewMapOf[string, *WaClient](xsync.WithPresize(sizeHint))
+	//syncer := xsync.NewMapOfPresized[string, *WaClient](sizeHint)
 	return MapClient{syncer}
 }
 
