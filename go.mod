@@ -13,6 +13,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.27
 	github.com/puzpuzpuz/xsync/v3 v3.5.1
 	github.com/rs/xid v1.6.0
+	github.com/rs/zerolog v1.34.0
 	go.mau.fi/whatsmeow v0.0.0-20250402091807-b0caa1b76088
 	go.mongodb.org/mongo-driver v1.17.3
 	golang.org/x/crypto v0.36.0
@@ -33,7 +34,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	github.com/rs/zerolog v1.34.0 // indirect
 	github.com/savsgio/gotils v0.0.0-20240704082632-aef3928b8a38 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.60.0 // indirect

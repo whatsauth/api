@@ -1,54 +1,55 @@
 package main
 
 import (
-	"log"
-
-	"github.com/gofiber/fiber/v2/middleware/logger"
-
-	"api/config"
-
-	"api/helper/ws"
-
-	"api/helper/chatroot"
-	"api/helper/wa"
-
-	"github.com/gofiber/fiber/v2/middleware/cors"
-
-	"api/url"
+	"os"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+
+	"api/config"
+	"api/helper/chatroot"
+	"api/helper/wa"
+	"api/helper/ws"
+	"api/url"
 )
 
 func main() {
-	log.Println("Aplikasi sedang berjalan...")
-	/* 	clients, err := wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
-	   	if err != nil {
-	   		log.Panic(err)
-	   	}
+	// Konfigurasi logger
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339})
+	log.Info().Msg("Aplikasi sedang berjalan...")
 
-	   	config.MapClient.StoreAllClient(clients) */
-
+	// Cek koneksi ke database
+	log.Info().Msg("Melakukan koneksi ke semua client yang sudah terdaftar di database")
 	var err error
-	log.Println("Melakukan koneksi ke semua client yang sudah terdaftar di database")
 	config.Client, err = wa.ConnectAllClient(config.Mongoconn, config.ContainerDB)
 	if err != nil {
-		log.Println("kesalahan ketika melakukan koneksi wa dari database")
-		log.Panic(err)
+		log.Fatal().Err(err).Msg("Kesalahan ketika melakukan koneksi WA dari database")
 	}
-
-	log.Println("Menjalankan go routine untuk login qr")
+	// Menjalankan Go Routine
+	log.Info().Msg("Menjalankan go routine untuk login QR")
 	go ws.RunHub()
-	log.Println("Menjalankan go routine untuk chatgpl")
+
+	log.Info().Msg("Menjalankan go routine untuk ChatGPT")
 	go chatroot.RunHub()
 
+	// Setup Fiber
 	site := fiber.New(config.Iteung)
 	site.Use(cors.New(config.Cors))
 
+	// Middleware logging request
 	site.Use(logger.New(logger.Config{
-		Format: "${status} - ${method} ${path}\n",
+		Format: "[${time}] ${status} - ${method} ${path}\n",
 	}))
 
 	url.Web(site)
-	log.Println("Menjalankan service fiber http pada: ", config.Port)
-	log.Fatal(site.Listen(config.Port))
+	// Jalankan server
+	log.Info().Msgf("Menjalankan service fiber HTTP pada: %s", config.Port)
+	err = site.Listen(config.Port)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Server gagal berjalan")
+	}
 }
