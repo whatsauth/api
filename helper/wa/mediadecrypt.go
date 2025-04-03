@@ -38,22 +38,22 @@ func GetBase64Filedata(urlenc *string, MediaKey []byte) string {
 	encFilePath := xid.New().String()
 	err := DownloadFile(encFilePath, *urlenc)
 	if err != nil {
-		log.Println("GetBase64Filedata,Download file enc wa error ", err)
+		log.Println("GetBase64Filedata,DownloadFile error ", err)
 		return ""
 	}
 	encFileData, err := os.ReadFile(encFilePath)
 	if err != nil {
-		log.Println("GetBase64Filedata,Read file enc wa error ", err)
+		log.Println("GetBase64Filedata,ReadFile error ", err)
 		return ""
 	}
 	data, err := decryptMedia(encFileData, MediaKey, MediaType(4))
 	if err != nil {
-		log.Println("Decript media error ", err)
+		log.Println("GetBase64Filedata,decryptMedia error ", err)
 		return ""
 	}
 	err = os.Remove(encFilePath)
 	if err != nil {
-		log.Println("Decript media error ", err)
+		log.Println("GetBase64Filedata,os.Remove error: ", err)
 		return ""
 	}
 	return base64.StdEncoding.EncodeToString(data)
