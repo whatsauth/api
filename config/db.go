@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"database/sql"
 	"log"
 	"os"
@@ -29,7 +30,7 @@ func init() {
 		log.Fatal(err)
 	}
 	ContainerDB = sqlstore.NewWithDB(db, "postgres", nil)
-	err = ContainerDB.Upgrade()
+	err = ContainerDB.Upgrade(context.TODO())
 	if err != nil {
 		log.Fatal(err)
 	}

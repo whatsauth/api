@@ -163,7 +163,7 @@ func GetFile(client *whatsmeow.Client, Message *waE2E.Message) (filename, fileda
 		}
 		if extMsg.ContextInfo.QuotedMessage.DocumentMessage != nil {
 			filename = *extMsg.ContextInfo.QuotedMessage.DocumentMessage.DirectPath
-			payload, err := client.Download(extMsg.ContextInfo.QuotedMessage.DocumentMessage)
+			payload, err := client.Download(context.TODO(), extMsg.ContextInfo.QuotedMessage.DocumentMessage)
 			if err != nil {
 				return
 			}
@@ -171,7 +171,7 @@ func GetFile(client *whatsmeow.Client, Message *waE2E.Message) (filename, fileda
 		}
 		if extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage != nil {
 			filename = *extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage.DirectPath
-			payload, err := client.Download(extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage)
+			payload, err := client.Download(context.TODO(), extMsg.ContextInfo.QuotedMessage.DocumentWithCaptionMessage.Message.DocumentMessage)
 			if err != nil {
 				return
 			}
@@ -184,7 +184,7 @@ func GetFile(client *whatsmeow.Client, Message *waE2E.Message) (filename, fileda
 		case doc.FileName != nil:
 			filename = *doc.FileName
 		}
-		payload, err := client.Download(doc)
+		payload, err := client.Download(context.TODO(), doc)
 		if err != nil {
 			return
 		}
@@ -192,7 +192,7 @@ func GetFile(client *whatsmeow.Client, Message *waE2E.Message) (filename, fileda
 	} else if img := Message.GetImageMessage(); img != nil {
 		filename = strings.ReplaceAll(*img.Mimetype, "/", ".")
 		filedata = GetBase64Filedata(img.URL, img.GetMediaKey())
-		payload, err := client.Download(img)
+		payload, err := client.Download(context.TODO(), img)
 		if err != nil {
 			return
 		}
@@ -207,7 +207,7 @@ func GetFile(client *whatsmeow.Client, Message *waE2E.Message) (filename, fileda
 		case docCap.GetMessage().GetDocumentMessage().FileName != nil:
 			filename = docCap.GetMessage().GetDocumentMessage().GetFileName()
 		}
-		payload, err := client.Download(docCap.Message.DocumentMessage)
+		payload, err := client.Download(context.TODO(), docCap.Message.DocumentMessage)
 		if err != nil {
 			return
 		}

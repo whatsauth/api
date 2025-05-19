@@ -12,7 +12,7 @@ require (
 	github.com/puzpuzpuz/xsync/v3 v3.5.1
 	github.com/rs/xid v1.6.0
 	github.com/rs/zerolog v1.34.0
-	go.mau.fi/whatsmeow v0.0.0-20250501130609-4c93ee4e6efa
+	go.mau.fi/whatsmeow v0.0.0-20250515105332-8c870897140e
 	go.mongodb.org/mongo-driver v1.17.3
 	golang.org/x/crypto v0.38.0
 	google.golang.org/protobuf v1.36.6
@@ -40,8 +40,8 @@ require (
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
-	go.mau.fi/libsignal v0.1.2 // indirect
-	go.mau.fi/util v0.8.6 // indirect
+	go.mau.fi/libsignal v0.2.0 // indirect
+	go.mau.fi/util v0.8.7 // indirect
 	golang.org/x/exp v0.0.0-20250506013437-ce4c2cf36ca6 // indirect
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/sync v0.14.0 // indirect

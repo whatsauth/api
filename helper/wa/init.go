@@ -36,7 +36,7 @@ func CreateContainerDB(pgstring string) (container *sqlstore.Container, err erro
 	if err != nil {
 		return
 	}
-	container, err = sqlstore.New("postgres", pgUrl, dbLog)
+	container, err = sqlstore.New(context.TODO(), "postgres", pgUrl, dbLog)
 	if err != nil {
 		return
 	}
@@ -74,9 +74,9 @@ func CreateClientfromContainer(phonenumber string, mongoconn *mongo.Database, co
 		if err != nil {
 			return
 		}
-		deviceStore, err = container.GetDevice(types.JID{User: user.PhoneNumber, Device: deviceid, Server: "s.whatsapp.net"})
+		deviceStore, err = container.GetDevice(context.TODO(), types.JID{User: user.PhoneNumber, Device: deviceid, Server: "s.whatsapp.net"})
 	} else {
-		deviceStore, err = container.GetDevice(types.JID{User: user.PhoneNumber, Device: user.DeviceID, Server: "s.whatsapp.net"})
+		deviceStore, err = container.GetDevice(context.TODO(), types.JID{User: user.PhoneNumber, Device: user.DeviceID, Server: "s.whatsapp.net"})
 	}
 	if deviceStore == nil {
 		deviceStore = container.NewDevice()
@@ -98,7 +98,7 @@ func CreateClientfromContainer(phonenumber string, mongoconn *mongo.Database, co
 }
 
 func GetDeviceIDFromContainer(phonenumber string, container *sqlstore.Container) (deviceid uint16, err error) {
-	deviceStores, err := container.GetAllDevices()
+	deviceStores, err := container.GetAllDevices(context.TODO())
 	if err != nil {
 		log.Println("GetDeviceIDFromContainer,container.GetAllDevices(): " + err.Error())
 	}
@@ -111,7 +111,7 @@ func GetDeviceIDFromContainer(phonenumber string, container *sqlstore.Container)
 }
 
 func GetDeviceStoreFromContainer(phonenumber string, container *sqlstore.Container) (device *store.Device, err error) {
-	deviceStores, err := container.GetAllDevices()
+	deviceStores, err := container.GetAllDevices(context.TODO())
 	if err != nil {
 		log.Println("GetDeviceStoreFromContainer,container.GetAllDevices():" + err.Error())
 	}
@@ -159,7 +159,7 @@ func PairConnect(client *WaClient, qr chan QRStatus) {
 			//qr <- QRStatus{client.PhoneNumber, false, "", message}
 		}
 		// No ID stored, new login
-		code, err := client.WAClient.PairPhone(client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
+		code, err := client.WAClient.PairPhone(context.TODO(), client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
 		if err != nil {
 			message = err.Error()
 			qr <- QRStatus{client.PhoneNumber, false, "", message}
@@ -191,7 +191,7 @@ func PairConnectStore(client *WaClient, storeMap GetStoreClient, qr chan QRStatu
 			//qr <- QRStatus{client.PhoneNumber, false, "", message}
 		}
 		// No ID stored, new login
-		code, err := client.WAClient.PairPhone(client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
+		code, err := client.WAClient.PairPhone(context.TODO(), client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
 		if err != nil {
 			message = err.Error()
 			qr <- QRStatus{client.PhoneNumber, false, "", message}
@@ -230,7 +230,7 @@ func PairConnectStoreMap(client *WaClient, storeMap GetStoreClient, qr chan QRSt
 			return
 		}
 		var code string
-		code, err = client.WAClient.PairPhone(client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
+		code, err = client.WAClient.PairPhone(context.TODO(), client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
 		if err != nil {
 			status.Message = err.Error()
 			return
@@ -271,7 +271,7 @@ func RePairConnect(client *WaClient) (qr QRStatus, err error) {
 	}
 
 	if client.WAClient.Store.ID == nil {
-		qr.Code, err = client.WAClient.PairPhone(client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
+		qr.Code, err = client.WAClient.PairPhone(context.TODO(), client.PhoneNumber, true, whatsmeow.PairClientUnknown, "Chrome (Mac OS)")
 		if err != nil {
 			qr.Message = err.Error()
 			return
@@ -293,7 +293,7 @@ func ConnectClient(client *whatsmeow.Client) error {
 }
 
 func ConnectAllClient(mongoconn *mongo.Database, container *sqlstore.Container) (clients []*WaClient, err error) {
-	deviceStores, err := container.GetAllDevices()
+	deviceStores, err := container.GetAllDevices(context.TODO())
 	for _, deviceStore := range deviceStores {
 		client := whatsmeow.NewClient(deviceStore, waLog.Stdout("Client", "ERROR", true))
 		filter := bson.M{"phonenumber": deviceStore.ID.User}
