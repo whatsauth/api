@@ -7,8 +7,7 @@ app = "apk"
 primary_region = "sin"
 
 [build]
-  builder = "paketobuildpacks/builder:base"
-  buildpacks = ["gcr.io/paketo-buildpacks/go"]
+  builder = "paketobuildpacks/builder-jammy-base"
 
 [env]
   PORT = "8080"
